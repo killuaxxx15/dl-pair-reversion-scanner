@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-07-22T07:43:59+00:00",
+  "generated_at": "2026-07-22T11:38:29+00:00",
   "model": "claude-opus-4-8",
   "signals_asof": "2026-07-21",
   "reviewed": 3,
@@ -8,8 +8,8 @@
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 70369,
-   "output_tokens": 4760
+   "input_tokens": 70690,
+   "output_tokens": 3659
   }
  },
  "brief": [
@@ -17,22 +17,22 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "detrended_z of -0.17 against raw z of 1.12 is direct evidence the mean itself is drifting upward: measured against its own rising 5-year trend the defense/SPY ratio is essentially AT trend, so the apparent 'stretch' is the flat 5y mean (0.2744) sliding higher, not a dislocation. That drift is corroborated by a live regime change — NATO members raising budgets toward 5% of GDP and durable demand for drones and missiles are structurally re-rating defense earnings. With the 200DMA already achieved, base_rate a weak 3/6, and the engine itself flagging slope unconfirmed, the 5y mean is an invalid target.",
-   "report_line": "Avoiding the ITA/SPY short: detrended z near zero shows the mean is drifting up with a structural NATO defense-spending rerating, making the flat 5-year target a statistical trap."
+   "analysis": "The strongest regime argument is a genuine multi-year structural shift: NATO's Hague commitment to 5% of GDP by 2035 (3.5% core) plus ~20% 2025 European spending growth is lifting the defense mean itself, not just its price. This is confirmed directly in the data — detrended z is -0.17 versus raw +1.12, a divergence of more than a sigma showing the ratio sits below its own rising trend even while above the flat mean, so the mean is drifting up. With the 200DMA already achieved, a weak 3/6 base rate and slope not confirmed, shorting toward the -11.9% flat 5-year mean is shorting into a rising structural trend; that target is a trap.",
+   "report_line": "Short ITA/SPY should be avoided: with detrended z at -0.17 versus raw +1.12 the ratio is below its own rising trend, and NATO's 5%-of-GDP rearmament path has moved the defense mean up, so the flat 5-year-mean target is statistically invalid."
   },
   {
    "pair": "SMH/QQQ",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The short thesis targets a 5-year mean (0.4707, +75% to close) set almost entirely before the AI data-center capex cycle, which independent coverage frames as a structural, multi-year semiconductor expansion led by AI and memory rather than a peak. current_z 3.07 reflects a numerator riding a secular wave, and with ma_score only 1/3, the 50DMA slope still intact, and price (0.8238) sitting right on the 50DMA (0.8322) with no reversal confirmation, momentum has not broken. detrended_z (3.02) matching raw z means the ratio is stretched even against its own uptrend, but that does not redeem a flat mean whose driver is secular — the mean has moved and the 5y target is a trap.",
-   "report_line": "Passing on the SMH/QQQ short: the semis premium is stretched but rides a structural AI-capex regime that has invalidated the pre-2023 mean, and momentum has not yet rolled over."
+   "analysis": "The strongest regime argument is a durable secular index-share gain: the AI capex cycle is still extending, with leading-edge capacity expected tight into 2027-2028, so semis' rise versus the Nasdaq reflects structural earnings power, not a temporary dislocation. Raw and detrended z agree at ~3.0 and 50DMA slope is still intact against the short, meaning nothing has broken the uptrend yet. The +75% pull to the flat 5-year mean assumes semis surrender a decade of AI-driven weight gains and is an invalid target; only the +20.6% 200DMA target is defensible, and even that is a fade, not a reversion.",
+   "report_line": "Short SMH/QQQ (3.1z) is a WL fade toward the 200DMA at best; the 5-year-mean target is invalid because the AI capex cycle has structurally raised semis' index share, so treat any short as a tactical trim, not a reversion trade."
   },
   {
    "pair": "SLV/GLD",
    "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "The dislocation has largely already reverted — peak_z 6.36 has collapsed to current_z 1.07, the 200DMA target is ACHIEVED, and detrended_z of 0.65 confirms little stretch remains. Mechanics are clean (ma_score 3/3, 50DMA slope turned), but the residual leg to the 5-year mean (0.1233, +14.8% further) fights a genuine bullish-silver industrial/solar demand regime, so the old mean is a plausible but not safe target. Tradeable remnant only — size down and treat the 200DMA, not the 5y mean, as the honest objective.",
-   "report_line": "Half-size the SLV/GLD short: the extreme z has already mean-reverted to the achieved 200DMA, and pushing to the 5-year mean runs against a structural silver industrial-demand bid."
+   "analysis": "The regime case is real: silver's ~147% 2025 run was driven by a multiyear structural supply deficit, ETP inflows and even first-ever sovereign reserve inclusion, which can hold the ratio structurally higher than its flat 5-year mean. But the extreme has already worked itself off — peak z of 6.36 has collapsed to 1.07, the 200DMA target is achieved, 3/3 MA confirmation and the 50DMA has turned — so the dislocation is largely spent rather than fresh. The 200DMA has been reached and the flat +14.8% mean target is aggressive against a metal whose own uptrend is still intact; size down and treat the 5-year mean as a stretch, not a base case.",
+   "report_line": "Short SLV/GLD is HC and MA-confirmed but the z-score has already normalized to 1.07 with the 200DMA hit; the residual +14.8% to the 5-year mean fights silver's intact structural deficit, so size down and anchor on the 200DMA, not the flat mean."
   }
  ]
 }
