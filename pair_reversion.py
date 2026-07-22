@@ -109,6 +109,7 @@ def compute_features(ratio: pd.Series) -> pd.DataFrame:
     df["dma200"] = ratio.rolling(200).mean()
     df["dma50_slope"] = df["dma50"].diff(SLOPE_WIN)      # 20d change of 50DMA
     df["hi20"] = ratio.rolling(SLOPE_WIN).max()
+    df["lo20"] = ratio.rolling(SLOPE_WIN).min()
     return df
 
 
@@ -194,7 +195,7 @@ def evaluate(df: pd.DataFrame, pair_name: str) -> dict:
         t1_str = "ACHIEVED" if last["ratio"] <= t1 else f"{(last['ratio'] / t1 - 1) * 100:+.1f}% to close"
         t2_str = "ACHIEVED" if last["ratio"] <= t2 else f"{(last['ratio'] / t2 - 1) * 100:+.1f}% to close"
     else:
-        invalidation = f"ratio < 50DMA ({last['dma50']:.4f}) AND new 20d low"
+        invalidation = f"ratio < 50DMA ({last['dma50']:.4f}) AND new 20d low (< {last['lo20']:.4f})"
         t1_str = "ACHIEVED" if last["ratio"] >= t1 else f"{(t1 / last['ratio'] - 1) * 100:+.1f}% to close"
         t2_str = "ACHIEVED" if last["ratio"] >= t2 else f"{(t2 / last['ratio'] - 1) * 100:+.1f}% to close"
 
@@ -469,6 +470,16 @@ def _selftest() -> None:
 
     _, r = ev("quiet")
     assert r["signal"] == "NO TRADE", r["signal"]
+
+    # The stop is documented as mechanical, so BOTH of its conditions must
+    # print a level on BOTH sides. The long side previously named the 20d low
+    # without pricing it, leaving the desk to pick that level by eye — which
+    # is exactly the discretion the mechanical stop exists to remove.
+    for regime, side in (("just_broke", "SHORT"), ("based_turning", "LONG")):
+        d = compute_features(make_mock_pair(regime))
+        inv = evaluate(d, regime)["invalidation"]
+        assert inv.count("(") == 2, f"{side} invalidation missing a level: {inv}"
+        assert "50DMA" in inv and "20d" in inv, inv
 
     # tier mapping must be total over every signal string evaluate() can emit
     for sig in ["INSUFFICIENT DATA", "REVERSION LARGELY DONE — stand aside",

@@ -132,8 +132,9 @@ reads. A pair shows PENDING ENGINE RUN until it appears in the signals file.
 - **LARGELY DONE** — the setup worked without us; <10% remains to the
   mean. Stand aside.
 - **Base rate** column — resolved historical episodes only; e.g.
-  `3/4 · med 41d` = 3 of 4 past setups reached the trigger-day 200DMA,
-  median 41 trading days. Episodes still open, and episodes whose target was
+  `3/4 episodes reached trigger-day 200DMA within 12m, median 41 trading
+  days` = 3 of 4 past setups reached the trigger-day 200DMA, median 41
+  trading days. Episodes still open, and episodes whose target was
   already met when they triggered, are both excluded — so the samples are
   small by design and the rate is a genuine forward hit rate.
 - **Row flags** — `z DIVERGES` (raw and trend-adjusted z disagree by over a

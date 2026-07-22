@@ -332,7 +332,7 @@ def main() -> int:
 
     print("\nServe the folder and open the dashboard:")
     print("  python -m http.server 8000")
-    print("  http://localhost:8000/dl_pair_reversion_scanner.html")
+    print("  http://localhost:8000/")
     return 0
 
 

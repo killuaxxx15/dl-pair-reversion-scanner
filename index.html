@@ -257,7 +257,7 @@ tr.detail .parts b.yes{color:var(--hc)} tr.detail .parts b.no{color:var(--ink-so
 <div class="tierbox"><span class="badge b-hc">HIGH CONVICTION</span><span class="desc">Reached ≥3σ within the lookback, trend has broken (2 or 3 averages crossed in our favour, 50-day turned), and the ratio is still more than 10% away from its 5-year average. This is the actionable list.</span></div>
 <div class="tierbox"><span class="badge b-wl">WATCHLIST</span><span class="desc">Reached ≥3σ, but the trigger has not fully fired. Two ways in: the trend is still intact (0–1 averages crossed), or the averages have gone but the 50-day has not yet turned — the row note says <span class="mono">slope not confirmed</span> for the second. We do not fight either. We wait, and it graduates.</span></div>
 <div class="tierbox"><span class="badge b-dn">LARGELY DONE</span><span class="desc">Reached ≥3σ and the ratio now sits within 10% of its 5-year average. The distance left is not worth the risk, so we stand aside. Note this outranks the others: a pair that has round-tripped lands here even if its moving-average structure still looks like a fresh signal.</span></div>
-<div class="tierbox"><span class="badge b-nt">NO TRADE</span><span class="desc">Never reached 3σ in the lookback — nothing to do. A pair without enough price history to compute a 5-year statistic also lands here, so a brand-new ETF will read NO TRADE rather than announcing itself as unmeasurable.</span></div>
+<div class="tierbox"><span class="badge b-nt">NO TRADE</span><span class="desc">Never reached 3σ in the lookback — nothing to do. A pair <em>without</em> enough price history never reaches this table at all: the builder needs 2½ years of closes before it will compute a 5-year statistic, and rejects the pair outright below that. It is reported in a banner at the top of this page instead, so a brand-new ETF announces itself as unmeasurable rather than sitting quietly among the pairs we have simply decided not to trade.</span></div>
 <p style="font-size:14px;margin-top:16px">Two notes on that "10%". It is the plain distance from today's ratio to its 5-year average — not 10% of the journey already travelled. And it is a flat number applied to every pair, so it is a tighter filter on a placid pair like XLU/SPY than on a violent one like COPX/GDX.</p>
 
 <h2><span class="step">6.</span>Targets and the exit</h2>
@@ -265,7 +265,7 @@ tr.detail .parts b.yes{color:var(--hc)} tr.detail .parts b.no{color:var(--ink-so
 <p>The stop is mechanical and, like the trigger, it mirrors by side. On a <strong>short</strong> idea we are out if the ratio climbs back above its 50-day average <em>and</em> makes a new 20-day high. On a <strong>long</strong> idea we are out if it falls back below the 50-day <em>and</em> makes a new 20-day low. Both conditions must hold — one alone is noise. The exact level for each pair is printed on its expanded row. No averaging down, no thesis rescue.</p>
 
 <h2><span class="step">7.</span>Base rate — does this actually work?</h2>
-<p>For each pair, the scanner counts every resolved past episode in the data where the same conditions fired, and reports how often the ratio went on to reach its 200-day average within a year, and how long it took. A pair showing <span class="mono">3/4 · med 41d</span> has delivered three times out of four, in a median of 41 trading days. Episodes still open at the end of the data are excluded rather than counted as failures. When the base rate is poor, that is the tool telling us the old average may no longer be the destination.</p>
+<p>For each pair, the scanner counts every resolved past episode in the data where the same conditions fired, and reports how often the ratio went on to reach its 200-day average within a year, and how long it took. A pair showing <span class="mono">3/4 episodes reached trigger-day 200DMA within 12m, median 41 trading days</span> has delivered three times out of four, in a median of 41 trading days. Episodes still open at the end of the data are excluded rather than counted as failures. When the base rate is poor, that is the tool telling us the old average may no longer be the destination.</p>
 <p>Two exclusions keep the number honest. An episode is only counted from the day <em>after</em> it triggers, so nothing gets credit for a move that had already happened. And an episode whose target was <em>already met on the trigger day</em> is discarded entirely rather than booked as an instant win — a ratio that gaps through its 50-day and 200-day averages in a single move has nothing left to predict. You will see the discarded count in the column, e.g. <span class="mono">4/6 … (5 discarded: target already met at trigger)</span>. Both exclusions shrink the sample; that is the point. The alternative is a hit rate that flatters itself.</p>
 
 <h2><span class="step">8.</span>What the tool does not know</h2>
@@ -373,7 +373,7 @@ window.addEventListener("DOMContentLoaded",async()=>{
    <p>Build the data and serve this folder over HTTP:</p>
    <pre>python build_data.py
 python -m http.server 8000</pre>
-   <p>Then open <code>http://localhost:8000/dl_pair_reversion_scanner.html</code>.</p>`);
+   <p>Then open <code>http://localhost:8000/</code>.</p>`);
   document.getElementById("asof").textContent="NO DATA";
   renderReg();return;
  }
@@ -522,8 +522,19 @@ function render(){
                     4:"Strong base — size normally."};
   const chip=x.base!==undefined
    ? `<span class="basechip ${x.base>=3?'strong':x.base<=1?'weak':''}" title="${esc(BASE_TITLE[x.base]||"")} Tests: time at lows, vol compression, 200DMA flattening, higher low.">BASE ${x.base}/4</span>`:"";
+  // The divergence test is symmetric, so the explanation must be too. Raw
+  // more extreme = part of the stretch is drift and the setup is WEAKER than
+  // it looks. Trend-adjusted more extreme = the pair has moved further from
+  // its own path than the flat mean admits, and the flat mean is hiding it.
+  // Opposite readings; one tooltip for both was wrong half the time.
+  const driftTitle=!x.drift?"":
+   `Raw z ${fmt(x.znow,2)} vs trend-adjusted ${fmt(x.dz,2)} — the two disagree by more than a sigma. `+
+   (Math.abs(x.znow)>Math.abs(x.dz)
+     ? "The raw reading is the more extreme, so part of this stretch is drift in the 5-year mean rather than dislocation — the setup is weaker than the headline number suggests."
+     : "The trend-adjusted reading is the more extreme, so the pair sits further from its own 5-year path than the flat mean shows — the flat mean is absorbing the move.")+
+   " Read the chart before sizing.";
   const flags=
-   (x.drift?`<span class="flag drift" title="Raw z ${fmt(x.znow)} vs trend-adjusted ${fmt(x.dz)} — the two disagree by more than a sigma. Part of this reading is drift in the 5-year mean, not dislocation. Read the chart before sizing.">z DIVERGES</span>`:"")+
+   (x.drift?`<span class="flag drift" title="${esc(driftTitle)}">z DIVERGES</span>`:"")+
    (x.short_hist?`<span class="flag short" title="Under five full years of history (${x.bars} trading days). The rolling statistics are computed on a shorter window than the label implies.">SHORT HISTORY</span>`:"")+
    (x.whipsaw?`<span class="flag whip" title="Reached 3σ in BOTH directions inside the lookback. The 5-year mean is unstable, so no target derived from it is trustworthy. Stand aside.">WHIPSAW</span>`:"");
   const tr=document.createElement("tr");tr.className="row";tr.tabIndex=0;
