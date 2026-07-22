@@ -1,0 +1,11 @@
+# Secrets — never commit
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# NOTE: pairs_signals.json and cio_brief.json ARE committed on purpose.
+# They are the deployed artifact — Vercel serves them as static files, and
+# the dashboard shows "No data loaded" without them. Regenerate with
+# `python build_data.py --brief` and commit the result.

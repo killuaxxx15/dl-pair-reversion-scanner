@@ -1,0 +1,6 @@
+# The deploy is static. The pipeline runs on your machine, not on Vercel.
+*.py
+__pycache__/
+requirements.txt
+.env
+.env.example

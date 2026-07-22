@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DL Pair Reversion Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --linen:#F5F1E8; --card:#FBF8F1; --ink:#1B2A4A; --ink-soft:#4A5878;
+  --gold:#B8923D; --rule:#E3DCCB;
+  --hc:#1E6B4E; --hc-bg:#E4EFE8;
+  --wl:#9A6B1F; --wl-bg:#F4EAD3;
+  --dn:#6B6B75; --dn-bg:#ECEAE4;
+  --nt:#9BA0AB; --nt-bg:#F1EFE9;
+  --neg:#8C3B2E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--linen);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:13px;padding:32px 40px 80px}
+.masthead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:6px}
+h1{font-family:'Fraunces',serif;font-weight:700;font-size:30px;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--gold)}
+.asof{color:var(--ink-soft);font-size:11px;text-align:right}
+.asof b{color:var(--ink)}
+.subline{color:var(--ink-soft);font-size:11.5px;margin-bottom:22px}
+.subline b{color:var(--ink)}
+
+/* boot / error state */
+.boot{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--neg);padding:22px 26px;margin-bottom:22px}
+.boot h3{font-family:'Fraunces',serif;font-size:19px;margin-bottom:10px;color:var(--neg)}
+.boot p{font-size:12.5px;line-height:1.7;margin-bottom:10px;max-width:760px}
+.boot code{background:var(--linen);border:1px solid var(--rule);padding:2px 7px;font-size:12px}
+.boot pre{background:var(--linen);border:1px solid var(--rule);padding:12px 14px;font-size:12px;line-height:1.7;overflow-x:auto;margin:10px 0}
+.stale{border-left-color:var(--wl)} .stale h3{color:var(--wl)}
+
+/* tabs */
+.tabs{display:flex;gap:0;margin-bottom:22px;border-bottom:1px solid var(--rule)}
+.tab{background:none;border:none;font:inherit;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding:10px 18px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--ink);font-weight:700;border-bottom-color:var(--gold)}
+.tab:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+
+/* methodology */
+.method{max-width:760px;font-family:'Fraunces',serif;font-size:15.5px;line-height:1.75;color:var(--ink)}
+.method h2{font-size:22px;font-weight:700;margin:34px 0 10px}
+.method h2:first-child{margin-top:6px}
+.method h2 .step{color:var(--gold);font-style:italic;margin-right:8px}
+.method p{margin-bottom:14px}
+.method .mono{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--card);border:1px solid var(--rule);padding:1px 6px}
+.method .callout{background:var(--card);border-left:3px solid var(--gold);padding:14px 18px;margin:18px 0;font-size:14.5px}
+.method .tierbox{display:flex;gap:12px;align-items:baseline;margin:10px 0;padding:12px 16px;background:var(--card);border:1px solid var(--rule)}
+.method .tierbox .badge{flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.method .tierbox span.desc{font-size:14px}
+
+/* pairs registry */
+.reg{max-width:860px}
+.reg .entry{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;background:var(--card);border:1px solid var(--rule);padding:18px;margin-bottom:22px}
+.reg .fld{display:flex;flex-direction:column;gap:5px}
+.reg label{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.reg select,.reg input[type=text]{background:var(--linen);border:1px solid var(--rule);padding:9px 10px;font:inherit;color:var(--ink);min-width:190px}
+.reg select:focus,.reg input[type=text]:focus{outline:2px solid var(--gold);outline-offset:-1px}
+.reg .slash{font-family:'Fraunces',serif;font-size:26px;color:var(--gold);padding-bottom:4px}
+.reg button.add{background:var(--ink);color:var(--linen);border:none;font:inherit;font-weight:700;padding:10px 22px;cursor:pointer;letter-spacing:.06em}
+.reg button.add:hover{background:var(--gold)}
+.reg .msg{font-size:11px;margin-top:8px;min-height:15px}
+.reg .msg.err{color:var(--neg)} .reg .msg.ok{color:var(--hc)}
+.reg table{margin-top:4px}
+.reg td.pr{font-weight:700;font-size:13.5px}
+.reg .star{cursor:pointer;font-size:16px;color:var(--rule);background:none;border:none;padding:2px 6px}
+.reg .star.on{color:var(--gold)}
+.reg .del{cursor:pointer;background:none;border:none;color:var(--ink-soft);font:inherit;font-size:11px;padding:2px 6px}
+.reg .del:hover{color:var(--neg)}
+.reg .toolbar{display:flex;gap:10px;align-items:center;margin:16px 0 6px;flex-wrap:wrap}
+.reg .toolbar button{background:var(--card);border:1px solid var(--rule);font:inherit;font-size:11px;padding:7px 14px;cursor:pointer;color:var(--ink)}
+.reg .toolbar button:hover{border-color:var(--ink)}
+.reg .storenote{font-size:10.5px;color:var(--ink-soft);margin-left:auto}
+.reg .howto{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:14px 18px;margin-top:20px;font-size:12px;line-height:1.75}
+.reg .howto pre{background:var(--linen);border:1px solid var(--rule);padding:10px 12px;margin-top:8px;overflow-x:auto}
+.badge.b-pd{background:#EAE4F0;color:#5B4A78}
+.basechip{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;padding:3px 7px;margin-left:6px;background:var(--nt-bg);color:var(--ink-soft);border:1px solid var(--rule)}
+.basechip.strong{background:var(--hc-bg);color:var(--hc);border-color:var(--hc)}
+.basechip.weak{background:#F0DFDA;color:var(--neg);border-color:var(--neg)}
+
+/* CIO brief */
+.brief{max-width:820px}
+.brief .bar{display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+.brief button.cp{background:var(--card);border:1px solid var(--rule);font:inherit;font-size:11px;padding:8px 16px;cursor:pointer;color:var(--ink)}
+.brief button.cp:hover{border-color:var(--ink)}
+.brief .status{font-size:11px;color:var(--ink-soft)}
+.brief .status.err{color:var(--neg)}
+.bcard{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--rule);padding:18px 22px;margin-bottom:16px}
+.bcard.v-act{border-left-color:var(--hc)} .bcard.v-caution{border-left-color:var(--wl)} .bcard.v-avoid{border-left-color:var(--neg)}
+.bcard .head{display:flex;gap:12px;align-items:baseline;margin-bottom:8px;flex-wrap:wrap}
+.bcard .pp{font-family:'Fraunces',serif;font-size:19px;font-weight:700}
+.bcard .vd{font-size:10px;font-weight:700;letter-spacing:.1em;padding:3px 9px}
+.vd.act{background:var(--hc-bg);color:var(--hc)} .vd.caution{background:var(--wl-bg);color:var(--wl)} .vd.avoid{background:#F0DFDA;color:var(--neg)}
+.bcard .rr{font-size:10px;color:var(--ink-soft);letter-spacing:.06em}
+.bcard .body{font-family:'Fraunces',serif;font-size:14.5px;line-height:1.65;margin-bottom:10px}
+.bcard .line{font-size:11.5px;color:var(--ink-soft);border-top:1px dashed var(--rule);padding-top:8px}
+.bcard .line b{color:var(--ink)}
+.brief .empty{color:var(--ink-soft);font-size:12.5px;line-height:1.8;background:var(--card);border:1px dashed var(--rule);padding:26px}
+.brief .empty pre{background:var(--linen);border:1px solid var(--rule);padding:10px 12px;margin-top:10px;font-size:12px;overflow-x:auto}
+
+/* concentration banner + row flags */
+.concent{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--wl);padding:11px 16px;margin-bottom:16px;font-size:11.5px;line-height:1.6;color:var(--ink-soft)}
+.concent b{color:var(--ink)}
+.flag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 6px;margin-left:5px;border:1px solid;white-space:nowrap;cursor:help}
+.flag.drift{background:#EAE4F0;color:#5B4A78;border-color:#5B4A78}
+.flag.short{background:var(--wl-bg);color:var(--wl);border-color:var(--wl)}
+.flag.whip{background:#F0DFDA;color:var(--neg);border-color:var(--neg)}
+
+/* summary strip */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.tile{background:var(--card);border:1px solid var(--rule);border-top:3px solid;padding:12px 16px;cursor:pointer;transition:transform .12s}
+.tile:hover{transform:translateY(-2px)}
+.tile.active{box-shadow:0 3px 0 var(--ink)}
+.tile .n{font-family:'Fraunces',serif;font-size:34px;font-weight:600;line-height:1}
+.tile .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+.t-hc{border-top-color:var(--hc)} .t-hc .n{color:var(--hc)}
+.t-wl{border-top-color:var(--wl)} .t-wl .n{color:var(--wl)}
+.t-dn{border-top-color:var(--dn)} .t-dn .n{color:var(--dn)}
+.t-nt{border-top-color:var(--nt)} .t-nt .n{color:var(--nt)}
+
+/* controls */
+.controls{display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+input[type=search]{background:var(--card);border:1px solid var(--rule);padding:8px 12px;font:inherit;color:var(--ink);width:220px}
+input[type=search]:focus{outline:2px solid var(--gold);outline-offset:-1px}
+select{background:var(--card);border:1px solid var(--rule);padding:8px 10px;font:inherit;color:var(--ink)}
+.controls .hint{color:var(--ink-soft);font-size:11px;margin-left:auto}
+
+/* table */
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--rule)}
+thead th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:10px 12px;border-bottom:2px solid var(--ink);white-space:nowrap}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--rule);vertical-align:middle}
+tbody tr.row{cursor:pointer}
+tbody tr.row:hover{background:#F3EEDF}
+.pair{font-weight:700;font-size:13.5px}
+.pair .dir{display:block;font-weight:400;font-size:10px;color:var(--ink-soft);margin-top:2px}
+.badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;padding:4px 9px;white-space:nowrap}
+.b-hc{background:var(--hc-bg);color:var(--hc)} .b-wl{background:var(--wl-bg);color:var(--wl)}
+.b-dn{background:var(--dn-bg);color:var(--dn)} .b-nt{background:var(--nt-bg);color:var(--nt)}
+.num{font-variant-numeric:tabular-nums}
+.zpk{font-weight:700}
+.pips{display:flex;gap:4px}
+.pip{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ink-soft)}
+.pip.on{background:var(--ink);border-color:var(--ink)}
+.slope{font-size:11px}
+.slope.turn{color:var(--hc);font-weight:700}
+.slope.intact{color:var(--ink-soft)}
+.empty-row td{padding:26px;color:var(--ink-soft);text-align:center}
+
+/* z-rail — signature element */
+.zrail{position:relative;width:190px;height:26px}
+.zrail .track{position:absolute;top:12px;left:0;right:0;height:2px;background:var(--rule)}
+.zrail .band{position:absolute;top:12px;height:2px;background:var(--gold);opacity:.55}
+.zrail .tick{position:absolute;top:8px;width:1px;height:10px;background:var(--rule)}
+.zrail .tick.sig3{background:var(--neg);height:14px;top:6px}
+.zrail .mk{position:absolute;top:7px;width:12px;height:12px;border-radius:50%;transform:translateX(-50%)}
+.zrail .mk.peak{border:2px solid var(--neg);background:transparent}
+.zrail .mk.now{background:var(--ink)}
+.zrail .lab{position:absolute;top:-3px;font-size:8.5px;color:var(--ink-soft)}
+
+/* sparkline */
+.spark path{fill:none;stroke:var(--ink);stroke-width:1.4}
+.spark .ma{stroke:var(--gold);stroke-width:1;stroke-dasharray:3 2}
+
+/* expand */
+tr.detail td{background:#F1ECDD;padding:14px 18px;font-size:12px;border-bottom:1px solid var(--ink)}
+tr.detail .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+tr.detail .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
+tr.detail .v{font-weight:500}
+tr.detail .v.ach{color:var(--hc);font-weight:700}
+tr.detail .parts{margin-top:10px;font-size:11px;color:var(--ink-soft)}
+tr.detail .parts span{margin-right:14px}
+tr.detail .parts b.yes{color:var(--hc)} tr.detail .parts b.no{color:var(--ink-soft);opacity:.6}
+.pairchart{background:var(--card);border:1px solid var(--rule);margin-bottom:14px;padding:10px 6px 4px}
+.pairchart svg{display:block;width:100%;height:auto}
+.legend{margin-top:26px;padding-top:12px;border-top:1px solid var(--rule);color:var(--ink-soft);font-size:10.5px;line-height:1.7}
+.legend .swz{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px}
+@media(max-width:900px){body{padding:16px}.strip{grid-template-columns:repeat(2,1fr)}.zrail{width:130px}}
+@media (prefers-reduced-motion: reduce){.tile{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <h1>DL <em>Pair Reversion</em> Scanner</h1>
+  <div class="asof" id="asof">loading…</div>
+</div>
+<div class="subline">Rule: peak |z| ≥ <b>3σ</b> vs 5-yr mean <b>+</b> MA structure ≥ 2/3 against extension <b>+</b> 50DMA slope turned → high-conviction mean reversion. Extension memory: 12m for tops, 24m for bottoms (bases form slowly). Largely done when &lt;10% remains to the mean.</div>
+
+<div id="bootmsg"></div>
+
+<div class="tabs" role="tablist">
+  <button class="tab active" id="tab-scan" role="tab" aria-selected="true" onclick="showTab('scan')">Scanner</button>
+  <button class="tab" id="tab-how" role="tab" aria-selected="false" onclick="showTab('how')">How it works</button>
+  <button class="tab" id="tab-pairs" role="tab" aria-selected="false" onclick="showTab('pairs')">Pairs</button>
+  <button class="tab" id="tab-brief" role="tab" aria-selected="false" onclick="showTab('brief')">CIO Brief</button>
+</div>
+
+<div id="view-scan" role="tabpanel" aria-labelledby="tab-scan">
+<div class="strip" id="strip"></div>
+<div class="concent" id="concent" style="display:none"></div>
+
+<div class="controls">
+  <input type="search" id="q" placeholder="Search pair… e.g. GLD">
+  <select id="side">
+    <option value="all">Side: all</option>
+    <option value="long">Long ideas (buy ratio)</option>
+    <option value="short">Short ideas (fade ratio)</option>
+  </select>
+  <select id="sort">
+    <option value="peak">Sort: peak |z| ↓</option>
+    <option value="znow">Sort: current |z| ↓</option>
+    <option value="ma">Sort: MA score ↓</option>
+    <option value="name">Sort: pair A–Z</option>
+  </select>
+  <span class="hint">Click a tier tile to filter · click a row for targets &amp; invalidation</span>
+</div>
+
+<table>
+  <thead><tr>
+    <th>Pair</th><th>Signal</th><th>12m ratio</th><th>z-rail (−4σ … +5σ)</th>
+    <th>z now</th><th>peak z</th><th>MA</th><th>50DMA</th><th>Base rate</th>
+  </tr></thead>
+  <tbody id="tb"></tbody>
+</table>
+
+<div class="legend">
+  Z-RAIL: <span class="swz" style="border:2px solid var(--neg)"></span> peak z (12m memory for tops, 24m for bottoms) · <span class="swz" style="background:var(--ink)"></span> current z · gold band = compression path · red ticks at ±3σ.
+  MA pips = ratio beyond 50 / 100 / 200 DMA in the reversion direction. Base rate = resolved past episodes where ≥3σ + 50DMA break reached the trigger-day 200DMA within 12m; open episodes are excluded, and so are episodes whose target was already met on the trigger day. BASE chip (longs) = time at lows / vol compression / 200DMA flattening / higher low → 3–4 size normally, 2 half size, 0–1 bounce risk.
+  Row flags: <span class="flag drift">z DIVERGES</span> raw and trend-adjusted z disagree by over a sigma · <span class="flag short">SHORT HISTORY</span> under five full years · <span class="flag whip">WHIPSAW</span> 3σ both ways, mean unstable, stand aside. Hover any flag for its numbers.
+  All figures computed by <span style="font-family:'JetBrains Mono',monospace">pair_reversion.py</span> from Yahoo Finance adjusted closes; this page only displays them.
+</div>
+</div><!-- /view-scan -->
+
+<div id="view-how" class="method" style="display:none" role="tabpanel" aria-labelledby="tab-how">
+
+<h2><span class="step">1.</span>What this tool looks for</h2>
+<p>Markets stretch relationships between assets, then snap them back. Gold runs far ahead of stocks, semis run far ahead of the Nasdaq — and eventually the relationship reverts toward its long-run average. This scanner watches a list of such pairs and tells us when a stretch has become extreme <em>and</em> has started to reverse. Both conditions matter. The first without the second is a falling knife.</p>
+
+<h2><span class="step">2.</span>The ratio</h2>
+<p>Every pair is just one price divided by another. <span class="mono">GLD/SPY</span> means: how many units of the S&amp;P does one unit of gold buy? When the ratio rises, gold is winning. We trade the <em>relationship</em>, not either asset outright — long one leg, short the other — so the position is roughly insulated from the overall market going up or down. Prices are dividend- and split-adjusted, so a high yielder is not made to look cheap by its own distributions.</p>
+
+<h2><span class="step">3.</span>Is the stretch extreme? (the setup)</h2>
+<p>We compare today's ratio to its own 5-year average and ask how unusual it is, measured in standard deviations — the z-score. A z of zero means the relationship is at its normal level. A z of +3 means it is stretched further than almost all of its own history. Our threshold is 3 sigma: below that, the stretch is noise; at or beyond it, it is a candidate.</p>
+<p>A caution on that number. In a textbook bell curve a 3-sigma reading happens about once in 370 observations. Asset ratios have fatter tails than the bell curve, so in practice 3-sigma readings arrive rather more often than the statistics imply — and they overshoot to 4 and 5 sigma more often too. Treat 3 sigma as a screening threshold, not as a probability.</p>
+<p>One subtlety: we use the <em>peak</em> z of the recent past, not just today's. By the time a reversal is confirmed, the ratio has usually already fallen and today's z looks tame. What matters is that the relationship <em>was</em> at an extreme recently — that is the stored tension the trade harvests. The lookback is deliberately asymmetric: one year for stretches to the upside, two years for stretches to the downside. See section 9.</p>
+
+<h2><span class="step">4.</span>Has it started to turn? (the trigger)</h2>
+<p>An extreme reading alone is not a trade. Things that are 3 sigma expensive routinely go to 4 and 5 sigma. So we wait for the trend itself to crack, measured three ways against the 50-, 100- and 200-day averages. Each one the ratio has crossed <em>in the direction of the reversion</em> scores one point — those are the three pips in the scanner. We want at least 2 of 3, plus one more confirmation: the 50-day average itself must have turned, not just been pierced on a bad week (we measure its change over the past 20 days).</p>
+<p>The test mirrors by side, which matters when reading the pips. On a <strong>short</strong> idea — a ratio stretched too high — a point is scored for each average the ratio has fallen <em>below</em>, and the 50-day must be sloping <em>down</em>. On a <strong>long</strong> idea — a ratio washed out too low — it is the exact opposite: a point for each average the ratio has climbed back <em>above</em>, and the 50-day must be sloping <em>up</em>. Three pips always means the same thing: the trend has broken in our favour.</p>
+<div class="callout">The one-line version: <strong>the rubber band must be stretched to 3 sigma, and it must have visibly started to snap back, before we touch it.</strong></div>
+
+<h2><span class="step">5.</span>The four buckets</h2>
+<div class="tierbox"><span class="badge b-hc">HIGH CONVICTION</span><span class="desc">Reached ≥3σ within the lookback, trend has broken (2 or 3 averages crossed in our favour, 50-day turned), and the ratio is still more than 10% away from its 5-year average. This is the actionable list.</span></div>
+<div class="tierbox"><span class="badge b-wl">WATCHLIST</span><span class="desc">Reached ≥3σ, but the trigger has not fully fired. Two ways in: the trend is still intact (0–1 averages crossed), or the averages have gone but the 50-day has not yet turned — the row note says <span class="mono">slope not confirmed</span> for the second. We do not fight either. We wait, and it graduates.</span></div>
+<div class="tierbox"><span class="badge b-dn">LARGELY DONE</span><span class="desc">Reached ≥3σ and the ratio now sits within 10% of its 5-year average. The distance left is not worth the risk, so we stand aside. Note this outranks the others: a pair that has round-tripped lands here even if its moving-average structure still looks like a fresh signal.</span></div>
+<div class="tierbox"><span class="badge b-nt">NO TRADE</span><span class="desc">Never reached 3σ in the lookback — nothing to do. A pair without enough price history to compute a 5-year statistic also lands here, so a brand-new ETF will read NO TRADE rather than announcing itself as unmeasurable.</span></div>
+<p style="font-size:14px;margin-top:16px">Two notes on that "10%". It is the plain distance from today's ratio to its 5-year average — not 10% of the journey already travelled. And it is a flat number applied to every pair, so it is a tighter filter on a placid pair like XLU/SPY than on a violent one like COPX/GDX.</p>
+
+<h2><span class="step">6.</span>Targets and the exit</h2>
+<p>Target 1 is the ratio's own 200-day average — often reached quickly, sometimes on the very day the signal confirms. Target 2 is the full trip back to the 5-year mean.</p>
+<p>The stop is mechanical and, like the trigger, it mirrors by side. On a <strong>short</strong> idea we are out if the ratio climbs back above its 50-day average <em>and</em> makes a new 20-day high. On a <strong>long</strong> idea we are out if it falls back below the 50-day <em>and</em> makes a new 20-day low. Both conditions must hold — one alone is noise. The exact level for each pair is printed on its expanded row. No averaging down, no thesis rescue.</p>
+
+<h2><span class="step">7.</span>Base rate — does this actually work?</h2>
+<p>For each pair, the scanner counts every resolved past episode in the data where the same conditions fired, and reports how often the ratio went on to reach its 200-day average within a year, and how long it took. A pair showing <span class="mono">3/4 · med 41d</span> has delivered three times out of four, in a median of 41 trading days. Episodes still open at the end of the data are excluded rather than counted as failures. When the base rate is poor, that is the tool telling us the old average may no longer be the destination.</p>
+<p>Two exclusions keep the number honest. An episode is only counted from the day <em>after</em> it triggers, so nothing gets credit for a move that had already happened. And an episode whose target was <em>already met on the trigger day</em> is discarded entirely rather than booked as an instant win — a ratio that gaps through its 50-day and 200-day averages in a single move has nothing left to predict. You will see the discarded count in the column, e.g. <span class="mono">4/6 … (5 discarded: target already met at trigger)</span>. Both exclusions shrink the sample; that is the point. The alternative is a hit rate that flatters itself.</p>
+
+<h2><span class="step">8.</span>What the tool does not know</h2>
+<p>Sometimes a relationship is not stretched — it has permanently changed. Central banks buying gold, AI capex rewriting semiconductor economics, a rate regime shift. The statistics cannot tell the difference between a rubber band and a broken one. That judgment stays with us. The rule of thumb: if the 5-year average itself is drifting steadily in one direction — visible as a sloping gold line on the pair chart — treat the raw sigma count with suspicion.</p>
+<p>The scanner now measures that suspicion rather than leaving it to the eye. Alongside the ordinary z-score it computes a second one against the pair's own five-year <em>trend line</em> instead of its flat average. Where the two agree, the stretch is real dislocation. Where they disagree by more than a sigma the row is flagged <span class="mono">z DIVERGES</span>, and both numbers are shown on the expanded row. It cuts both ways: a raw reading that is the more extreme of the two means part of the apparent stretch is just drift, and the setup is weaker than it looks; a trend-adjusted reading that is the more extreme means the pair has moved a long way from its own path while the flat average quietly absorbed it. The tiers are still driven by the raw number — this is a second opinion, not a replacement.</p>
+<p>One case the tool now refuses outright. If a ratio has been stretched three sigma in <em>both</em> directions inside the lookback, it is flagged <span class="mono">WHIPSAW</span> and dropped to NO TRADE regardless of how the rest of the setup reads. A pair that has done both is not oscillating around a stable average; it is telling us the average itself is moving, and every target we would derive from it — the 200-day, the mean, the invalidation level — inherits that instability. There is no side of that trade worth taking.</p>
+
+<h2><span class="step">9.</span>The long side: bases, not bounces</h2>
+<p>The buy side of this book — pairs stretched 3 sigma <em>below</em> their average and now turning up — matters more to us than the shorts, and it behaves differently. Blowoff tops resolve fast: the break comes and the reversion runs in weeks. Washed-out bottoms usually don't V-bottom; they <em>base</em> — twelve to eighteen months of sideways drift at the lows while sellers exhaust. Because of that, the tool remembers downside extremes for two years (versus one for tops), so a washout is not forgotten halfway through the base it created.</p>
+<p>Every long candidate also carries a <span class="mono">BASE</span> score out of 4, one point each for: meaningful time spent at the lows, volatility drying up, the 200-day average flattening out, and a higher low versus the past year. The score maps directly to size: <strong>3 or 4 — size normally</strong>, a durable turn and the trades we want to own; <strong>2 — half size</strong>; <strong>0 or 1 — bounce risk</strong>, half size or pass. The label on the signal says which. Two out of four is the most common reading in practice, so it gets an explicit instruction rather than being left to the analyst to interpret a number the tool declined to judge. One more nuance: after a crash, the rolling average gets dragged down toward the price, so the z-score can look tame while the ratio still sits 25% below its mean — which is why "largely done" is measured as distance remaining to the mean, not in sigma.</p>
+
+<p style="margin-top:30px;color:var(--ink-soft);font-size:13px">Questions on the math → the engine file <span class="mono">pair_reversion.py</span> is the source of truth. This page is the plain-English mirror of it, and displays only what the engine computed.</p>
+</div><!-- /view-how -->
+
+<div id="view-pairs" class="reg" style="display:none" role="tabpanel" aria-labelledby="tab-pairs">
+  <div class="entry">
+    <div class="fld"><label for="numSel">Numerator</label>
+      <select id="numSel"></select>
+      <input type="text" id="numCustom" placeholder="custom ticker e.g. GREK" style="display:none" maxlength="10">
+    </div>
+    <div class="slash">/</div>
+    <div class="fld"><label for="denSel">Denominator</label>
+      <select id="denSel"></select>
+      <input type="text" id="denCustom" placeholder="custom ticker e.g. VWO" style="display:none" maxlength="10">
+    </div>
+    <button class="add" onclick="addPair()">Add pair</button>
+    <div class="msg" id="regMsg" role="status"></div>
+  </div>
+
+  <div class="toolbar">
+    <button onclick="exportPairs()">Copy list for engine (JSON)</button>
+    <button onclick="downloadPairs()">Download pairs.json</button>
+    <button onclick="loadDefaults()">Load pairs currently in scanner</button>
+    <span class="storenote" id="storeNote"></span>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:36px">Core</th><th>Pair</th><th>Numerator</th><th>Denominator</th><th>Status</th><th style="width:70px"></th></tr></thead>
+    <tbody id="regBody"></tbody>
+  </table>
+
+  <div class="howto">
+    Edits here change only your local list. To make them real, save the list as
+    <span class="mono">pairs.json</span> next to the engine and rebuild:
+    <pre>python build_data.py            # prices only
+python build_data.py --brief    # prices + CIO brief</pre>
+    Then reload this page. A pair reads PENDING ENGINE RUN until it appears in
+    <span class="mono">pairs_signals.json</span>.
+  </div>
+</div><!-- /view-pairs -->
+
+<div id="view-brief" class="brief" style="display:none" role="tabpanel" aria-labelledby="tab-brief">
+  <div class="concent" style="border-left-color:var(--gold);display:block;margin-bottom:18px">
+    <b>This brief informs; it does not gate.</b> An AVOID cannot block a trade the engine flagged, and an ACT cannot originate one it did not. It is a language model reading recent web results — useful for surfacing a regime-change argument we had not considered, and for making us articulate why we disagree. Position decisions stay with the desk.
+  </div>
+  <div class="bar">
+    <button class="cp" id="copyBrief" onclick="copyBrief()" style="display:none">Copy brief text</button>
+    <span class="status" id="briefStatus"></span>
+  </div>
+  <div id="briefOut"></div>
+</div><!-- /view-brief -->
+
+
+
+<script>
+/* ==================================================================
+   Display layer. No computation, no API calls, no synthetic data.
+   Everything on screen comes from two files written by build_data.py:
+       pairs_signals.json   required
+       cio_brief.json       optional (--brief)
+   ================================================================== */
+
+const TIERS={HC:{k:"b-hc",t:"HIGH CONVICTION"},WL:{k:"b-wl",t:"WATCHLIST"},
+             DN:{k:"b-dn",t:"LARGELY DONE"},NT:{k:"b-nt",t:"NO TRADE"}};
+let P=[], META={}, BRIEF=null, BRIEF_META={}, filter=null;
+
+function showTab(t){
+ ["scan","how","pairs","brief"].forEach(v=>{
+  document.getElementById("view-"+v).style.display=t===v?"":"none";
+  document.getElementById("tab-"+v).classList.toggle("active",t===v);
+  document.getElementById("tab-"+v).setAttribute("aria-selected",String(t===v));
+ });
+}
+
+/* ---------- boot ---------- */
+async function getJSON(name){
+ const r=await fetch(name+"?t="+Date.now(),{cache:"no-store"});
+ if(!r.ok)throw new Error(name+" — HTTP "+r.status);
+ return r.json();
+}
+function bootError(html,cls){
+ document.getElementById("bootmsg").innerHTML=`<div class="boot ${cls||""}">${html}</div>`;
+}
+window.addEventListener("DOMContentLoaded",async()=>{
+ fillSelects();
+ try{
+  const d=await getJSON("pairs_signals.json");
+  P=d.pairs||[];META=d.meta||{};
+ }catch(e){
+  const fileProto=location.protocol==="file:";
+  bootError(`<h3>No data loaded</h3>
+   <p>${fileProto
+     ? "This page was opened directly from disk. Browsers block <code>fetch()</code> on <code>file://</code> URLs, so the data files cannot be read."
+     : "Could not read <code>pairs_signals.json</code> ("+e.message+")."}</p>
+   <p>Build the data and serve this folder over HTTP:</p>
+   <pre>python build_data.py
+python -m http.server 8000</pre>
+   <p>Then open <code>http://localhost:8000/dl_pair_reversion_scanner.html</code>.</p>`);
+  document.getElementById("asof").textContent="NO DATA";
+  renderReg();return;
+ }
+ const ok=META.pairs_ok??P.length, failed=META.pairs_failed||0;
+ document.getElementById("asof").innerHTML=
+  `AS OF <b>${META.asof||"—"}</b> · LIVE · ${ok} PAIRS`+
+  (failed?` · <span style="color:var(--neg)">${failed} FAILED</span>`:"");
+ if(failed&&META.errors&&META.errors.length){
+  bootError(`<h3>${failed} pair${failed>1?"s":""} could not be built</h3>`+
+   META.errors.map(x=>`<p><code>${esc(x.p)}</code> — ${esc(x.error)}</p>`).join("")+
+   `<p>Check the ticker exists on Yahoo Finance and has enough history, then rebuild.</p>`,"stale");
+ }
+ await loadRegistry();
+ renderConcentration();
+ render();
+ loadBrief();
+});
+
+/* ---------- helpers ---------- */
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>
+ ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=(v,d=1)=>v==null||Number.isNaN(v)?"—":Number(v).toFixed(d);
+
+/* ---------- sparkline: last 52 weekly bars of the REAL ratio ---------- */
+function sparkSVG(x){
+ const all=(x.series&&x.series.r||[]).filter(v=>v!=null);
+ const a=all.slice(-52);
+ if(a.length<4)return `<span style="color:var(--ink-soft);font-size:10px">—</span>`;
+ const w=110,h=30,mn=Math.min(...a),mx=Math.max(...a),rng=(mx-mn)||1;
+ const Y=v=>(h-3-(v-mn)/rng*(h-6)).toFixed(1);
+ const X=i=>(i/(a.length-1)*w).toFixed(1);
+ const pt=a.map((v,i)=>`${X(i)},${Y(v)}`);
+ const ma=a.map((_,i)=>{const s=a.slice(Math.max(0,i-7),i+1);return s.reduce((p,q)=>p+q,0)/s.length;});
+ const pm=ma.map((v,i)=>`${X(i)},${Y(v)}`);
+ return `<svg class="spark" width="${w}" height="${h}" role="img" aria-label="12 month ratio trend for ${esc(x.p)}">`+
+        `<path class="ma" d="M${pm.join("L")}"/><path d="M${pt.join("L")}"/></svg>`;
+}
+
+/* ---------- pair chart: real 5y weekly history ----------
+   The 5y mean and the sigma rails are ROLLING series, so they are drawn as
+   curves, not horizontal lines. A pair whose mean is drifting shows it here —
+   which is exactly when the raw sigma count is least trustworthy.        */
+function chartSVG(x){
+ const s=x.series||{};
+ const r=s.r||[];
+ if(!r.length)return `<div class="pairchart" style="padding:20px;color:var(--ink-soft)">No price history in the data file.</div>`;
+ const W=680,H=250,L=14,R=62,T=12,B=22,iw=W-L-R,ih=H-T-B;
+ const band=k=>(s.m||[]).map((m,i)=>
+   (m==null||s.sd[i]==null)?null:m+k*s.sd[i]);
+
+ const vals=[];
+ const push=a=>(a||[]).forEach(v=>{if(v!=null)vals.push(v);});
+ push(r);push(s.ma50);push(s.ma100);push(s.ma200);push(s.m);
+ // Show the full 3-sigma ladder on the side the extension is on, and 1 sigma
+ // of context on the quiet side — otherwise half the chart is empty space.
+ push(band(x.zpk>=0?3:-3));push(band(x.zpk>=0?-1:1));
+ let lo=Math.min(...vals),hi=Math.max(...vals);
+ const pad=((hi-lo)||Math.abs(hi)||1)*0.05;lo-=pad;hi+=pad;
+
+ const X=t=>L+(r.length<2?0:t/(r.length-1)*iw);
+ const Y=v=>T+(hi-v)/((hi-lo)||1)*ih;
+ const path=a=>{let d="",pen=false;
+  (a||[]).forEach((v,t)=>{if(v==null){pen=false;return;}
+   d+=(pen?"L":"M")+X(t).toFixed(1)+","+Y(v).toFixed(1);pen=true;});
+  return d;};
+ const lastAt=a=>{for(let i=(a||[]).length-1;i>=0;i--)if(a[i]!=null)return a[i];return null;};
+
+ let grid="";
+ [[-3,"−3σ"],[-2,"−2σ"],[-1,"−1σ"],[1,"+1σ"],[2,"+2σ"],[3,"+3σ"]].forEach(([k,lab])=>{
+  const a=band(k),end=lastAt(a);
+  if(end==null||end<lo||end>hi)return;
+  const three=Math.abs(k)===3;
+  grid+=`<path d="${path(a)}" fill="none" stroke="${three?'var(--neg)':'var(--ink-soft)'}"`+
+        ` stroke-width="${three?1.1:0.7}" stroke-dasharray="${three?'5 3':'2 4'}" opacity="${three?0.75:0.45}"/>`+
+        `<text x="${L+iw+6}" y="${(Y(end)+3.5).toFixed(1)}" font-size="9.5"`+
+        ` fill="${three?'var(--neg)':'var(--ink-soft)'}" font-family="JetBrains Mono,monospace">${lab}</text>`;
+ });
+ const mEnd=lastAt(s.m);
+ if(mEnd!=null)
+  grid+=`<path d="${path(s.m)}" fill="none" stroke="var(--gold)" stroke-width="1.6"/>`+
+        `<text x="${L+iw+6}" y="${(Y(mEnd)+3.5).toFixed(1)}" font-size="9.5" fill="var(--gold)"`+
+        ` font-weight="700" font-family="JetBrains Mono,monospace">5y mean</text>`;
+
+ const leg=[["Ratio","var(--ink)",""],["50DMA","#C77B28","4 3"],["100DMA","var(--hc)","2 3"],
+            ["200DMA","var(--neg)","2 3"],["5y mean","var(--gold)",""]];
+ let legend=`<g><rect x="${L+8}" y="${T+6}" width="96" height="${leg.length*15+10}" fill="var(--card)" stroke="var(--rule)"/>`;
+ leg.forEach(([t,c,d],j)=>{const y=T+18+j*15;
+  legend+=`<line x1="${L+15}" x2="${L+38}" y1="${y}" y2="${y}" stroke="${c}" stroke-width="1.6"${d?` stroke-dasharray="${d}"`:""}/>`+
+   `<text x="${L+44}" y="${y+3.5}" font-size="9.5" fill="var(--ink)" font-family="JetBrains Mono,monospace">${t}</text>`;});
+ legend+=`</g>`;
+
+ const d0=(s.d&&s.d[0])||"", d1=(s.d&&s.d[s.d.length-1])||"";
+ return `<div class="pairchart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(x.p)} ratio with rolling 5-year mean, sigma bands and moving averages">
+  ${grid}
+  <path d="${path(s.ma200)}" fill="none" stroke="var(--neg)" stroke-width="1.1" stroke-dasharray="2 3"/>
+  <path d="${path(s.ma100)}" fill="none" stroke="var(--hc)" stroke-width="1.1" stroke-dasharray="2 3"/>
+  <path d="${path(s.ma50)}" fill="none" stroke="#C77B28" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <path d="${path(r)}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+  ${legend}
+  <text x="${L}" y="${H-6}" font-size="9" fill="var(--ink-soft)" font-family="JetBrains Mono,monospace">${esc(d0)}</text>
+  <text x="${L+iw}" y="${H-6}" font-size="9" text-anchor="end" fill="var(--ink-soft)" font-family="JetBrains Mono,monospace">${esc(d1)} · weekly closes</text>
+ </svg></div>`;
+}
+
+/* ---------- z-rail ---------- */
+function zrail(znow,zpk){
+ const lo=-4,hi=5,C=z=>Math.max(lo,Math.min(hi,z)),X=z=>((C(z)-lo)/(hi-lo)*100).toFixed(1)+"%";
+ const a=Math.min(znow,zpk),b=Math.max(znow,zpk);
+ let ticks="";[-3,0,3].forEach(t=>ticks+=`<div class="tick ${Math.abs(t)===3?'sig3':''}" style="left:${X(t)}"></div>`);
+ const off=z=>(z>hi||z<lo)?`<div class="lab" style="left:${X(z)};top:18px;transform:translateX(-50%);color:var(--neg)">${z>hi?"»":"«"}</div>`:"";
+ return `<div class="zrail"><div class="track"></div>
+  <div class="band" style="left:${X(a)};width:calc(${X(b)} - ${X(a)})"></div>${ticks}
+  <div class="lab" style="left:${X(-3)};transform:translateX(-50%)">−3σ</div>
+  <div class="lab" style="left:${X(3)};transform:translateX(-50%)">+3σ</div>
+  <div class="mk peak" style="left:${X(zpk)}" title="peak z ${zpk}"></div>
+  <div class="mk now" style="left:${X(znow)}" title="current z ${znow}"></div>${off(zpk)}${off(znow)}</div>`;
+}
+
+/* ---------- scanner ---------- */
+const BASE_LABELS={time_at_lows:"time at lows",vol_compression:"vol compression",
+                   dma200_flattening:"200DMA flattening",higher_low:"higher low"};
+function render(){
+ const q=document.getElementById("q").value.toLowerCase();
+ const srt=document.getElementById("sort").value;
+ const side=document.getElementById("side").value;
+ let rows=P.filter(x=>x.p.toLowerCase().includes(q)&&(!filter||x.tier===filter)
+   &&(side==="all"||(side==="long"&&x.dir.startsWith("LONG"))||(side==="short"&&x.dir.startsWith("SHORT"))));
+ const key={peak:x=>-Math.abs(x.zpk??0),znow:x=>-Math.abs(x.znow??0),ma:x=>-(x.ma??0),name:x=>x.p};
+ const tierOrder={HC:0,WL:1,DN:2,NT:3};
+ rows.sort((a,b)=>{
+  if(srt==="peak")return tierOrder[a.tier]-tierOrder[b.tier]||Math.abs(b.zpk??0)-Math.abs(a.zpk??0)||a.p.localeCompare(b.p);
+  const ka=key[srt](a),kb=key[srt](b);
+  return ka<kb?-1:ka>kb?1:a.p.localeCompare(b.p);
+ });
+
+ const tb=document.getElementById("tb");tb.innerHTML="";
+ if(!rows.length){
+  tb.innerHTML=`<tr class="empty-row"><td colspan="9">${P.length?"No pairs match these filters.":"No data loaded."}</td></tr>`;
+ }
+ rows.forEach(x=>{
+  const tier=TIERS[x.tier]||TIERS.NT;
+  const BASE_TITLE={0:"Weak base — bounce risk. Half size or pass.",
+                    1:"Weak base — bounce risk. Half size or pass.",
+                    2:"Moderate base — half size.",
+                    3:"Strong base — size normally.",
+                    4:"Strong base — size normally."};
+  const chip=x.base!==undefined
+   ? `<span class="basechip ${x.base>=3?'strong':x.base<=1?'weak':''}" title="${esc(BASE_TITLE[x.base]||"")} Tests: time at lows, vol compression, 200DMA flattening, higher low.">BASE ${x.base}/4</span>`:"";
+  const flags=
+   (x.drift?`<span class="flag drift" title="Raw z ${fmt(x.znow)} vs trend-adjusted ${fmt(x.dz)} — the two disagree by more than a sigma. Part of this reading is drift in the 5-year mean, not dislocation. Read the chart before sizing.">z DIVERGES</span>`:"")+
+   (x.short_hist?`<span class="flag short" title="Under five full years of history (${x.bars} trading days). The rolling statistics are computed on a shorter window than the label implies.">SHORT HISTORY</span>`:"")+
+   (x.whipsaw?`<span class="flag whip" title="Reached 3σ in BOTH directions inside the lookback. The 5-year mean is unstable, so no target derived from it is trustworthy. Stand aside.">WHIPSAW</span>`:"");
+  const tr=document.createElement("tr");tr.className="row";tr.tabIndex=0;
+  tr.innerHTML=`<td class="pair">${esc(x.p)}<span class="dir">${esc(x.dir)}</span></td>
+   <td><span class="badge ${tier.k}">${tier.t}</span>${chip}${flags}</td>
+   <td>${sparkSVG(x)}</td>
+   <td>${zrail(x.znow??0,x.zpk??0)}</td>
+   <td class="num">${fmt(x.znow)}</td>
+   <td class="num zpk">${fmt(x.zpk)}</td>
+   <td><div class="pips">${[0,1,2].map(j=>`<span class="pip ${j<(x.ma||0)?'on':''}"></span>`).join("")}</div></td>
+   <td class="slope ${x.slope?'turn':'intact'}">${x.slope?"turned ▾":"intact"}</td>
+   <td class="num" style="color:var(--ink-soft)">${esc(x.br)}</td>`;
+
+  const parts=x.base_parts?`<div class="parts">${Object.entries(BASE_LABELS)
+    .map(([k,lab])=>`<span><b class="${x.base_parts[k]?'yes':'no'}">${x.base_parts[k]?"✓":"✗"}</b> ${lab}</span>`).join("")}</div>`:"";
+  const det=document.createElement("tr");det.className="detail";det.style.display="none";
+  det.innerHTML=`<td colspan="9">${chartSVG(x)}<div class="grid">
+    <div><div class="k">Ratio (${esc(x.asof||META.asof||"")})</div><div class="v">${esc(x.rt)}</div></div>
+    <div><div class="k">T1 — 200DMA</div><div class="v ${String(x.t1).includes("ACHIEVED")?"ach":""}">${esc(x.t1)}</div></div>
+    <div><div class="k">T2 — 5y mean</div><div class="v">${esc(x.t2)}</div></div>
+    <div><div class="k">Invalidation</div><div class="v">${esc(x.inv)}</div></div>
+    <div><div class="k">z — flat mean</div><div class="v">${fmt(x.znow,2)}</div></div>
+    <div><div class="k">z — vs 5y trend</div><div class="v"${x.drift?' style="color:#5B4A78;font-weight:700"':""}>${fmt(x.dz,2)}</div></div>
+    <div><div class="k">History</div><div class="v">${x.bars?`${x.bars} trading days`:"—"}</div></div>
+    <div><div class="k">Peak z (lookback)</div><div class="v">${fmt(x.zpk,2)}</div></div>
+   </div>${parts}${x.note?`<div style="margin-top:10px;color:var(--ink-soft)">◆ ${esc(x.note)}</div>`:""}</td>`;
+
+  const tog=()=>{det.style.display=det.style.display==="none"?"table-row":"none";};
+  tr.onclick=tog;tr.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();tog();}};
+  tb.append(tr,det);
+ });
+
+ const strip=document.getElementById("strip");strip.innerHTML="";
+ [["HC","t-hc"],["WL","t-wl"],["DN","t-dn"],["NT","t-nt"]].forEach(([t,c])=>{
+  const n=P.filter(x=>x.tier===t).length;
+  const d=document.createElement("div");d.className=`tile ${c} ${filter===t?"active":""}`;d.tabIndex=0;
+  d.setAttribute("role","button");d.setAttribute("aria-pressed",String(filter===t));
+  d.innerHTML=`<div class="n">${n}</div><div class="lbl">${TIERS[t].t}</div>`;
+  const f=()=>{filter=filter===t?null:t;render();};
+  d.onclick=f;d.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();f();}};
+  strip.append(d);
+ });
+}
+document.getElementById("q").oninput=render;
+document.getElementById("sort").onchange=render;
+document.getElementById("side").onchange=render;
+
+/* ---------- CIO brief: rendered from cio_brief.json ---------- */
+const REBUILD_HINT=`<pre>python build_data.py --brief</pre>`;
+async function loadBrief(){
+ const out=document.getElementById("briefOut");
+ try{
+  const d=await getJSON("cio_brief.json");
+  BRIEF=d.brief||[];BRIEF_META=d.meta||{};
+ }catch(e){
+  out.innerHTML=`<div class="empty">No CIO brief has been generated yet.
+   The AI regime-change review (rubber band vs broken band) runs server-side, where the API key lives:
+   ${REBUILD_HINT}Then reload this page.</div>`;
+  briefStatus("");return;
+ }
+ if(!BRIEF.length){
+  out.innerHTML=`<div class="empty">The brief file contains no pairs. Nothing qualified at the time it was built.${REBUILD_HINT}</div>`;
+  return;
+ }
+ renderBrief();
+ const m=BRIEF_META;
+ const stale=m.signals_asof&&META.asof&&m.signals_asof!==META.asof;
+ briefStatus(`${m.reviewed}/${m.requested} pairs reviewed · ${m.model||"model n/a"} · signals as of ${m.signals_asof||"?"}`+
+  (m.missing&&m.missing.length?` · no verdict for ${m.missing.join(", ")}`:"")+
+  (stale?" · ⚠ OLDER THAN THE CURRENT SIGNALS — rerun --brief":"")+
+  " · AI-assisted; verify before it reaches the report.",stale);
+ document.getElementById("copyBrief").style.display="";
+}
+function briefStatus(t,err){
+ const s=document.getElementById("briefStatus");s.textContent=t;s.className="status"+(err?" err":"");
+}
+function renderBrief(){
+ const out=document.getElementById("briefOut");out.innerHTML="";
+ const order={AVOID:0,CAUTION:1,ACT:2};
+ [...BRIEF].sort((a,b)=>(order[a.verdict]??9)-(order[b.verdict]??9)).forEach(b=>{
+  const src=P.find(x=>x.p===b.pair)||{};
+  const v=["ACT","CAUTION","AVOID"].includes(b.verdict)?b.verdict:"CAUTION";
+  const d=document.createElement("div");d.className="bcard v-"+v.toLowerCase();
+  // Model output is untrusted text (it has ingested web search results),
+  // so every field goes in via textContent, never innerHTML.
+  const head=document.createElement("div");head.className="head";
+  const pp=document.createElement("span");pp.className="pp";pp.textContent=b.pair;
+  const vd=document.createElement("span");vd.className="vd "+v.toLowerCase();vd.textContent=v;
+  const rr=document.createElement("span");rr.className="rr";
+  rr.textContent=`REGIME RISK: ${b.regime_risk}`+
+   (src.zpk!==undefined?` · peak z ${src.zpk} · now ${src.znow}`:"");
+  head.append(pp,vd,rr);
+  const body=document.createElement("div");body.className="body";body.textContent=b.analysis;
+  const line=document.createElement("div");line.className="line";
+  const lb=document.createElement("b");lb.textContent="For the report: ";
+  line.append(lb,document.createTextNode(b.report_line));
+  d.append(head,body,line);out.append(d);
+ });
+}
+function copyBrief(){
+ if(!BRIEF)return;
+ const order={AVOID:0,CAUTION:1,ACT:2};
+ const txt=`PAIR REVERSION — CIO BRIEF (signals as of ${BRIEF_META.signals_asof||"?"})\n\n`+
+  [...BRIEF].sort((a,b)=>(order[a.verdict]??9)-(order[b.verdict]??9))
+   .map(b=>`${b.pair} — ${b.verdict} (regime risk: ${b.regime_risk})\n${b.report_line}`).join("\n\n")+
+  `\n\nAI-assisted analysis (${BRIEF_META.model||"n/a"}); quant signals per DL Pair Reversion Engine.`;
+ navigator.clipboard.writeText(txt).then(
+  ()=>briefStatus("Brief copied to clipboard."),
+  ()=>briefStatus("Copy failed — clipboard blocked in this view.",true));
+}
+
+/* ---------- denominator concentration banner ----------
+   The signals are not independent. Where most of what we would actually
+   hold is measured against one leg, a single move in that leg re-rates the
+   whole book at once. Counted over the actionable tiers only.            */
+function renderConcentration(){
+ const el=document.getElementById("concent");
+ if(!el)return;
+ const den=META.actionable_denominators||{};
+ const entries=Object.entries(den).sort((a,b)=>b[1]-a[1]);
+ const total=META.actionable_count||0;
+ if(total<2||!entries.length){el.style.display="none";return;}
+ const[name,n]=entries[0];
+ if(n<2){el.style.display="none";return;}
+ el.style.display="";
+ el.innerHTML=`<b>Denominator concentration:</b> ${n} of the ${total} actionable pair${total>1?"s":""} `+
+  `${n>1?"share":"uses"} a <b>${esc(name)}</b> denominator`+
+  (entries.length>1?` (${entries.slice(1).map(([d,c])=>`${esc(d)} ${c}`).join(", ")})`:"")+
+  `. One move in ${esc(name)} re-rates them together — size the group, not each line.`;
+}
+
+/* ---------- ticker universe for dropdowns ---------- */
+const UNIVERSE={
+ "US broad":["SPY","QQQ","IWM","DIA","RSP","MDY"],
+ "US sectors":["XLE","XLF","XLK","XLV","XLI","XLU","XLP","XLY","XLB","XBI","SMH","ITA","XME","KRE","XHB"],
+ "Country / EM":["EEM","VWO","FXI","KWEB","INDA","EWZ","EWJ","EWG","EWU","EWY","EWT","GREK","EWW","EPOL","TUR","EZA","EIDO","VNM"],
+ "Commodities / FX":["GLD","SLV","GDX","COPX","USO","DBA","DBC","UUP","FXE","FXY"],
+ "Bonds / rates":["TLT","IEF","SHY","LQD","HYG","EMB","TIP"],
+ "Factors / style":["MTUM","VLUE","QUAL","USMV","IWD","IWF","VTV","VUG"]
+};
+function fillSelects(){
+ ["numSel","denSel"].forEach(id=>{
+  const s=document.getElementById(id);s.innerHTML="";
+  for(const[g,ts]of Object.entries(UNIVERSE)){
+   const og=document.createElement("optgroup");og.label=g;
+   ts.forEach(t=>{const o=document.createElement("option");o.value=t;o.textContent=t;og.append(o);});
+   s.append(og);}
+  const c=document.createElement("option");c.value="__custom__";c.textContent="Custom ticker…";s.append(c);
+  s.onchange=()=>{document.getElementById(id.replace("Sel","Custom")).style.display=s.value==="__custom__"?"":"none";};
+ });
+ document.getElementById("numSel").value="GLD";document.getElementById("denSel").value="SPY";
+}
+
+/* ---------- storage adapter ---------- */
+const KEY="dl-pair-registry";
+let memStore=null,storeMode="memory";
+async function loadPairsStore(){
+ if(window.storage){try{const r=await window.storage.get(KEY);storeMode="claude";return r?JSON.parse(r.value):null;}catch(e){storeMode="claude";return null;}}
+ try{const v=localStorage.getItem(KEY);storeMode="local";return v?JSON.parse(v):null;}catch(e){}
+ storeMode="memory";return memStore;
+}
+async function savePairsStore(list){
+ if(storeMode==="claude"){try{await window.storage.set(KEY,JSON.stringify(list));return;}catch(e){storeMode="memory";}}
+ if(storeMode==="local"){try{localStorage.setItem(KEY,JSON.stringify(list));return;}catch(e){storeMode="memory";}}
+ memStore=list;
+ document.getElementById("storeNote").textContent=STORE_LABELS[storeMode];
+}
+const STORE_LABELS={claude:"Saved to your Claude workspace (private to you)",
+                    local:"Saved in this browser",
+                    memory:"In-memory only — pairs reset on reload"};
+
+/* ---------- registry ---------- */
+let REG=[];
+const getDefaults=()=>P.map(x=>{const[a,b]=x.p.split("/");return{num:a,den:b,core:x.core!==false};});
+function pairKey(r){return r.num+"/"+r.den;}
+function setMsg(t,cls){const m=document.getElementById("regMsg");m.textContent=t;m.className="msg "+(cls||"");}
+function getTicker(selId){
+ const s=document.getElementById(selId);
+ if(s.value!=="__custom__")return s.value;
+ return document.getElementById(selId.replace("Sel","Custom")).value.trim().toUpperCase();
+}
+async function loadRegistry(){
+ const saved=await loadPairsStore();
+ REG=saved&&saved.length?saved:getDefaults();
+ if(!saved)await savePairsStore(REG);
+ renderReg();
+}
+async function addPair(){
+ const num=getTicker("numSel"),den=getTicker("denSel");
+ if(!num||!den)return setMsg("Enter both tickers.","err");
+ if(!/^[A-Z0-9.\-]{1,10}$/.test(num)||!/^[A-Z0-9.\-]{1,10}$/.test(den))return setMsg("Tickers: letters, numbers, . or - only.","err");
+ if(num===den)return setMsg("Numerator and denominator are the same.","err");
+ if(REG.some(r=>r.num===num&&r.den===den))return setMsg(num+"/"+den+" is already in the list.","err");
+ if(REG.some(r=>r.num===den&&r.den===num))return setMsg("Inverse pair "+den+"/"+num+" already exists — the signal covers both directions.","err");
+ REG.push({num,den,core:false});
+ await savePairsStore(REG);renderReg();
+ setMsg("Added "+num+"/"+den+". Rebuild with build_data.py to get its signal.","ok");
+}
+async function delPair(i){REG.splice(i,1);await savePairsStore(REG);renderReg();setMsg("Removed.","ok");}
+async function toggleCore(i){REG[i].core=!REG[i].core;await savePairsStore(REG);renderReg();}
+async function loadDefaults(){
+ getDefaults().forEach(d=>{if(!REG.some(r=>r.num===d.num&&r.den===d.den))REG.push({...d});});
+ await savePairsStore(REG);renderReg();setMsg("Scanner pairs merged into the list.","ok");
+}
+const regJSON=()=>JSON.stringify(REG.map(r=>({numerator:r.num,denominator:r.den,core:!!r.core})),null,1);
+function exportPairs(){
+ navigator.clipboard.writeText(regJSON()).then(
+  ()=>setMsg("JSON copied — save it as pairs.json, then run build_data.py.","ok"),
+  ()=>setMsg("Copy failed — use Download pairs.json instead.","err"));
+}
+function downloadPairs(){
+ const b=new Blob([regJSON()],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="pairs.json";
+ a.click();URL.revokeObjectURL(a.href);
+ setMsg("Downloaded. Replace pairs.json next to build_data.py, then rebuild.","ok");
+}
+function renderReg(){
+ const tb=document.getElementById("regBody");tb.innerHTML="";
+ const sorted=[...REG].sort((a,b)=>(b.core-a.core)||pairKey(a).localeCompare(pairKey(b)));
+ sorted.forEach(r=>{
+  const i=REG.indexOf(r);
+  const hasData=P.some(x=>x.p===pairKey(r));
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td><button class="star ${r.core?'on':''}" title="${r.core?'Core pair':'Mark as core'}" onclick="toggleCore(${i})">★</button></td>
+   <td class="pr">${esc(pairKey(r))}</td><td>${esc(r.num)}</td><td>${esc(r.den)}</td>
+   <td>${hasData?'<span class="badge" style="background:var(--nt-bg);color:var(--ink-soft)">IN SCANNER</span>':'<span class="badge b-pd">PENDING ENGINE RUN</span>'}</td>
+   <td><button class="del" onclick="delPair(${i})">remove</button></td>`;
+  tb.append(tr);});
+ document.getElementById("storeNote").textContent=STORE_LABELS[storeMode];
+ if(!REG.length)tb.innerHTML='<tr><td colspan="6" style="color:var(--ink-soft);padding:20px">No pairs yet. Add one above, or load the pairs currently in the scanner.</td></tr>';
+}
+</script>
+</body>
+</html>
+

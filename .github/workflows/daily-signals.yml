@@ -1,0 +1,89 @@
+name: Daily signals
+
+# 06:00 Singapore, every day. GitHub cron is UTC only and does not observe
+# any timezone, so 06:00 SGT (UTC+8) is 22:00 UTC the previous day. Singapore
+# has no daylight saving, so this holds all year with no adjustment.
+#
+# Scheduled runs on GitHub are best-effort and can be delayed at busy times
+# (the top of the hour is the worst offender, hence :20). A late run is
+# harmless here — these are long-horizon signals — but if a run is skipped
+# entirely the next day's run simply supersedes it.
+on:
+  schedule:
+    - cron: "20 22 * * *"
+  workflow_dispatch:
+    inputs:
+      skip_brief:
+        description: "Prices only — skip the Claude review"
+        type: boolean
+        default: false
+
+concurrency:
+  group: daily-signals
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify the engine before trusting its output
+        run: python pair_reversion.py
+
+      - name: Fetch prices and compute signals
+        run: python build_data.py
+
+      # The brief is skipped rather than failed when no key is configured, so
+      # the price pipeline still publishes. It is also allowed to fail without
+      # taking the run down: a bad day at the API should not cost us the
+      # quant screen, which is the part that actually drives decisions.
+      - name: Generate CIO brief
+        if: ${{ github.event_name == 'schedule' || !inputs.skip_brief }}
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::warning::ANTHROPIC_API_KEY not set — skipping the CIO brief."
+            exit 0
+          fi
+          python build_data.py --brief-only --include-watchlist
+
+      - name: Sanity-check the output before publishing
+        run: python check_output.py
+
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pairs_signals.json
+          # The brief is optional — only stage it if this run produced one.
+          [ -f cio_brief.json ] && git add cio_brief.json
+          if git diff --staged --quiet; then
+            echo "No change in the data — nothing to commit."
+            exit 0
+          fi
+          ASOF=$(python -c "import json;print(json.load(open('pairs_signals.json'))['meta']['asof'])")
+          git commit -m "signals: $ASOF"
+          # Rebase before pushing: a manual run and the scheduled run can
+          # otherwise collide on the same branch.
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push
+
+      - name: Job summary
+        if: always()
+        run: python summarise_run.py >> "$GITHUB_STEP_SUMMARY"

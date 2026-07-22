@@ -1,0 +1,82 @@
+[
+ {
+  "numerator": "GLD",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "SMH",
+  "denominator": "QQQ",
+  "core": true
+ },
+ {
+  "numerator": "XLE",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "IWM",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "COPX",
+  "denominator": "GDX",
+  "core": true
+ },
+ {
+  "numerator": "EEM",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "KWEB",
+  "denominator": "QQQ",
+  "core": true
+ },
+ {
+  "numerator": "XLU",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "TLT",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "XBI",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "SLV",
+  "denominator": "GLD",
+  "core": true
+ },
+ {
+  "numerator": "ITA",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "FXI",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "EWZ",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "EWW",
+  "denominator": "SPY",
+  "core": true
+ },
+ {
+  "numerator": "XME",
+  "denominator": "SPY",
+  "core": true
+ }
+]
