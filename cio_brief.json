@@ -1,15 +1,15 @@
 {
  "meta": {
-  "generated_at": "2026-07-24T23:18:30+00:00",
+  "generated_at": "2026-07-25T23:16:44+00:00",
   "model": "claude-opus-4-8",
-  "signals_asof": "2026-07-24",
+  "signals_asof": "2026-07-23",
   "reviewed": 4,
   "requested": 4,
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 73196,
-   "output_tokens": 3998
+   "input_tokens": 101517,
+   "output_tokens": 5793
   }
  },
  "brief": [
@@ -17,29 +17,29 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The strongest regime argument is a genuine multi-year rearmament cycle — NATO on a path toward 5% of GDP and record 2026 procurement — which structurally lifts defense's share of the market and invalidates a flat 5-year mean for ITA/SPY. This is corroborated by the data itself: raw_and_detrended_diverge is true (raw z 1.73 vs detrended 0.70), direct evidence the underlying mean is drifting upward, so the ratio is barely stretched against its own trend. With ma_score 0/3 and the 200DMA target essentially already met (+0.5%), there is no clean reversion left to harvest.",
-   "report_line": "Avoid short ITA/SPY — the detrended z (0.70 vs raw 1.73) confirms the mean is drifting up on a structural defense-spending regime, leaving no reversion edge to the 200DMA."
+   "analysis": "Defense spending has moved into a structurally higher gear — record prime backlogs, rising global budgets, ITA near all-time highs — which is exactly the kind of secular index-share shift that invalidates an old flat mean. The engine itself flags this: raw_and_detrended_diverge is true, with detrended-z at only 0.59 versus raw 1.65, direct evidence the ratio's own trend is drifting up and the 5y mean (0.2745) is a moving, not fixed, target. The 200DMA is already achieved and slope is not confirmed, so there is no clean reversion to trade.",
+   "report_line": "Short ITA/SPY fights a structurally higher defense-spending regime, and the engine's own detrended-z (0.59 vs raw 1.65) shows the mean is drifting up — the statistics here are a trap rather than an entry."
   },
   {
    "pair": "SLV/GLD",
    "verdict": "AVOID",
+   "regime_risk": "MEDIUM",
+   "analysis": "This high-conviction flag is backward-looking: the SHORT already worked. Z has collapsed from a 6.36 peak to 0.99, the 50DMA slope turned, and the 200DMA target is ACHIEVED, with detrended-z at 0.55 showing little edge left. The gold/silver ratio breached 100x then compressed toward 60x on silver's ~150% 2025 run; a sixth straight structural silver deficit and persistent central-bank gold buying mean the residual drift is regime-driven, but the primary reason to pass is simply that the mean-reversion has already happened.",
+   "report_line": "Short SLV/GLD has already reached its 200DMA target with z back near 1.0, so the edge is spent; the residual risk is that a structural silver deficit and central-bank gold buying keep the ratio trending rather than reverting to the older 5y mean."
+  },
+  {
+   "pair": "SMH/QQQ",
+   "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The regime case is decisive: the gold/silver ratio already round-tripped from >100:1 to ~57:1 with silver up ~147% in 2025 on solar/electronics demand, so silver's relative strength (a rising SLV/GLD) is structural, not a dislocation to fade. The 200DMA target is already ACHIEVED and current z has collapsed to 1.06 from a peak of 6.36 — the edge is gone, and the remaining +14.7% to the 5y mean asks silver to underperform gold into a live industrial-demand tailwind. The old 5-year mean formed before the silver deficit/solar regime and is an invalid target despite the HIGH CONVICTION flag.",
-   "report_line": "Do not add to short SLV/GLD — the mean-reversion is essentially complete (200DMA achieved, z back to ~1) and the residual push to the 5-year mean fights a structural silver-demand regime."
+   "analysis": "The AI capex cycle is the single strongest secular bid in the market and SMH holds the most concentrated leverage to its leaders, so a stretched SMH/QQQ ratio reflects durable earnings mix rather than froth. With ma_score 0/3, the 50DMA slope still intact and up, and the ratio (0.838) sitting essentially on its 50DMA (0.833) and near the 20d-high invalidation, there is no reversion signal yet. The 5y mean at 0.4715 (+77.8%) is a stale target from a pre-AI weighting and detrended-z at 3.21 confirms the stretch is real, but nothing says the mean is coming to you.",
+   "report_line": "Short SMH/QQQ is a watchlist-only fade of a still-accelerating AI capex regime with no MA confirmation and price at the invalidation line; the key risk is that the 5y mean reflects a pre-AI index weighting that will not return."
   },
   {
    "pair": "XME/SPY",
    "verdict": "AVOID",
-   "regime_risk": "HIGH",
-   "analysis": "The regime case is strong: copper and industrial metals are in a structurally tight, deficit-driven upcycle powered by electrification, energy transition and the AI-datacenter buildout, so XME's relative strength reflects a demand regime rather than a fadeable spike. The trade is already exhausted — 200DMA target ACHIEVED, current z just 0.69 (peak 4.57), detrended z -0.08 — meaning the ratio sits essentially on its own trend, with the remaining +11.3% to the 5y mean asking metals to underperform into that tailwind. The 5-year mean predates the current commodity regime and is not a valid target despite the HIGH CONVICTION flag.",
-   "report_line": "Avoid short XME/SPY — reversion is spent (200DMA achieved, z ~0.7, detrended ~0) and the push to the 5-year mean bets against a structural metals/copper deficit upcycle."
-  },
-  {
-   "pair": "SMH/QQQ",
-   "verdict": "CAUTION",
-   "regime_risk": "HIGH",
-   "analysis": "The strongest regime argument is that the AI capex cycle is still expanding into 2026, with semis now roughly 20% of developed-market equity, so SMH's premium over QQQ reflects a persistent secular bid rather than a temporary stretch. The 5y-mean target (0.4719, +73.8%) is almost certainly an invalid anchor because that mean predates the AI capex regime; only the 200DMA target (+19.4%) is a defensible reversion. Raw and detrended z agree (3.0 vs 2.89) so the mean is not obviously drifting on this window, but a 5-year lookback spanning the pre-AI era understates the structural rerating, and the base rate (6/8 to the 200DMA) only ever validated the moving-average target, not the mean.",
-   "report_line": "Short SMH/QQQ toward the 200DMA (+19.4%) only, sized down — the 5-year mean is a pre-AI-capex anchor that likely no longer applies, so the reversion target is the moving average, not the mean."
+   "regime_risk": "MEDIUM",
+   "analysis": "XME's stretch rode a genuine commodity rally — gold, silver, copper and uranium at or near records with active rotation from tech into materials — but as a short that is now moot. Z has collapsed to 0.8 from a 4.57 peak, the 200DMA target is ACHIEVED, and detrended-z at 0.03 places the ratio right on its own trend, meaning essentially zero reversion remains. The clean 2/2 base rate is real, but the move it was built to capture is over; this is a spent trade rather than a live mean-reversion.",
+   "report_line": "Short XME/SPY has fully reverted — 200DMA achieved and detrended-z ~0.03 — so there is no edge left despite a clean base rate; the standing risk is a commodity supercycle that re-stretches the ratio against a late short."
   }
  ]
 }
