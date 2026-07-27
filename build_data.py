@@ -104,6 +104,23 @@ def build_signals(pairs: list[dict]) -> dict:
 
     asof = max((r["asof"] for r in rows), default=None)
 
+    univ_den = Counter(r["p"].split("/")[1] for r in rows)
+
+    # Reference price for an at-a-glance freshness check. SPY is the
+    # denominator of most of this universe, so its last close is a number the
+    # reader can compare against a live quote to confirm the data is current.
+    # Its date is carried too: if it lags `asof`, one leg is stale. Falls back
+    # to the most common denominator when SPY is not in the universe. This is
+    # the last bar, so the auto-adjusted close equals the actual closing price.
+    ref = "SPY" if "SPY" in close.columns else (
+        univ_den.most_common(1)[0][0] if univ_den else None)
+    ref_price = ref_date = None
+    if ref and ref in close.columns:
+        s = close[ref].dropna()
+        if not s.empty:
+            ref_price = round(float(s.iloc[-1]), 2)
+            ref_date = s.index[-1].date().isoformat()
+
     # Denominator concentration. The signals are not independent: where most
     # of the book is measured against one leg, a single move in that leg
     # re-rates many pairs at once. Counted over the ACTIONABLE tiers, since
@@ -115,13 +132,15 @@ def build_signals(pairs: list[dict]) -> dict:
         "meta": {
             "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "asof": asof,
+            "ref_ticker": ref,
+            "ref_price": ref_price,
+            "ref_date": ref_date,
             "source": "Yahoo Finance (yfinance, auto_adjust=True)",
             "history": HISTORY,
             "pairs_ok": len(rows),
             "pairs_failed": len(errors),
             "errors": errors,
-            "universe_denominators": dict(
-                Counter(r["p"].split("/")[1] for r in rows).most_common()),
+            "universe_denominators": dict(univ_den.most_common()),
             "actionable_denominators": dict(den.most_common()),
             "actionable_count": len(live),
         },

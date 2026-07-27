@@ -378,8 +378,17 @@ python -m http.server 8000</pre>
   renderReg();return;
  }
  const ok=META.pairs_ok??P.length, failed=META.pairs_failed||0;
+ // The prominent date is when the data was last rebuilt (generated_at); the
+ // price bar date (asof) is shown next to it because it can lag by a session.
+ // The reference close lets the reader eyeball the data against a live quote.
+ const upd=fmtUpdated(META.generated_at);
+ const refBits=(META.ref_ticker&&META.ref_price!=null)
+  ? ` · <b>${esc(META.ref_ticker)} ${Number(META.ref_price).toFixed(2)}</b>`+
+    (META.ref_date&&META.ref_date!==META.asof?` <span style="color:var(--neg)">(${esc(META.ref_date)})</span>`:"")
+  : "";
  document.getElementById("asof").innerHTML=
-  `AS OF <b>${META.asof||"—"}</b> · LIVE · ${ok} PAIRS`+
+  `UPDATED <b>${upd}</b>${refBits}<br>`+
+  `bars as of ${esc(META.asof||"—")} · LIVE · ${ok} PAIRS`+
   (failed?` · <span style="color:var(--neg)">${failed} FAILED</span>`:"");
  if(failed&&META.errors&&META.errors.length){
   bootError(`<h3>${failed} pair${failed>1?"s":""} could not be built</h3>`+
@@ -396,6 +405,15 @@ python -m http.server 8000</pre>
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>
  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=(v,d=1)=>v==null||Number.isNaN(v)?"—":Number(v).toFixed(d);
+/* generated_at is a full UTC ISO timestamp; show the date + HH:MM UTC so an
+   intraday rerun is visible. Falls back to the raw string if it won't parse. */
+function fmtUpdated(iso){
+ if(!iso)return "—";
+ const d=new Date(iso);
+ if(isNaN(d))return String(iso);
+ const p=n=>String(n).padStart(2,"0");
+ return `${d.getUTCFullYear()}-${p(d.getUTCMonth()+1)}-${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
+}
 
 /* ---------- sparkline: last 52 weekly bars of the REAL ratio ---------- */
 function sparkSVG(x){
