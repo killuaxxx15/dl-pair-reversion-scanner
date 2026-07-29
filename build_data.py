@@ -166,7 +166,9 @@ Judge each pair independently. A HIGH CONVICTION quant flag does NOT mean the an
 
 Two fields carry specific meaning. `detrended_z` measures the ratio against its own 5-year linear trend rather than a flat mean; when `raw_and_detrended_diverge` is true the two readings disagree by more than a sigma, which is direct evidence about whether the mean is drifting — cite it rather than speculating. `base_rate` counts only episodes that still had ground to cover when they triggered, so it is a genuine forward hit rate; do not discount it as noise.
 
-Your verdict informs the desk and never gates it: it cannot block a trade the engine flagged, nor originate one it did not. Write to help a portfolio manager disagree with you productively."""
+Your verdict informs the desk and never gates it: it cannot block a trade the engine flagged, nor originate one it did not. Write to help a portfolio manager disagree with you productively.
+
+Write in plain English for a reader who does not live in quant vocabulary: no "sigma", "z-score", "detrended", "regime" or "basis" without saying what it means in the same breath. Prefer "silver has run far ahead of gold" to "the ratio is 6 sigma rich". The analysis and report_line must read aloud naturally in an investment-committee meeting."""
 
 BRIEF_TASK = """Pairs data:
 {payload}

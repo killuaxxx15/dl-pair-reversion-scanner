@@ -216,13 +216,13 @@ tr.detail .parts b.yes{color:var(--hc)} tr.detail .parts b.no{color:var(--ink-so
     <option value="ma">Sort: MA score ↓</option>
     <option value="name">Sort: pair A–Z</option>
   </select>
-  <span class="hint">Click a tier tile to filter · click a row for targets &amp; invalidation</span>
+  <span class="hint">Click a tier tile to filter · click a row for the chart, targets &amp; exit rule</span>
 </div>
 
 <table>
   <thead><tr>
     <th>Pair</th><th>Signal</th><th>12m ratio</th><th>z-rail (−4σ … +5σ)</th>
-    <th>z now</th><th>peak z</th><th>MA</th><th>50DMA</th><th>Base rate</th>
+    <th>z now</th><th>peak z</th><th>MA</th><th>Trend</th><th>Track record</th>
   </tr></thead>
   <tbody id="tb"></tbody>
 </table>
@@ -230,7 +230,7 @@ tr.detail .parts b.yes{color:var(--hc)} tr.detail .parts b.no{color:var(--ink-so
 <div class="legend">
   Z-RAIL: <span class="swz" style="border:2px solid var(--neg)"></span> peak z (12m memory for tops, 24m for bottoms) · <span class="swz" style="background:var(--ink)"></span> current z · gold band = compression path · red ticks at ±3σ.
   MA pips = ratio beyond 50 / 100 / 200 DMA in the reversion direction. Base rate = resolved past episodes where ≥3σ + 50DMA break reached the trigger-day 200DMA within 12m; open episodes are excluded, and so are episodes whose target was already met on the trigger day. BASE chip (longs) = time at lows / vol compression / 200DMA flattening / higher low → 3–4 size normally, 2 half size, 0–1 bounce risk.
-  Row flags: <span class="flag drift">z DIVERGES</span> raw and trend-adjusted z disagree by over a sigma · <span class="flag short">SHORT HISTORY</span> under five full years · <span class="flag whip">WHIPSAW</span> 3σ both ways, mean unstable, stand aside. Hover any flag for its numbers.
+  Row flags: <span class="flag drift">AVG MAY BE DRIFTING</span> the 5-year average is moving, so part of the stretch may be trend, not dislocation — check the chart · <span class="flag short">SHORT HISTORY</span> under five full years · <span class="flag whip">WHIPSAW</span> 3σ both ways, mean unstable, stand aside. Hover any flag for its numbers. BASE chips on buy ideas: SOLID BOTTOM = full size, BOTTOM FORMING = half, NO REAL BOTTOM = pass or token.
   All figures computed by <span style="font-family:'JetBrains Mono',monospace">pair_reversion.py</span> from Yahoo Finance adjusted closes; this page only displays them.
 </div>
 </div><!-- /view-scan -->
@@ -276,6 +276,10 @@ tr.detail .parts b.yes{color:var(--hc)} tr.detail .parts b.no{color:var(--ink-so
 <h2><span class="step">9.</span>The long side: bases, not bounces</h2>
 <p>The buy side of this book — pairs stretched 3 sigma <em>below</em> their average and now turning up — matters more to us than the shorts, and it behaves differently. Blowoff tops resolve fast: the break comes and the reversion runs in weeks. Washed-out bottoms usually don't V-bottom; they <em>base</em> — twelve to eighteen months of sideways drift at the lows while sellers exhaust. Because of that, the tool remembers downside extremes for two years (versus one for tops), so a washout is not forgotten halfway through the base it created.</p>
 <p>Every long candidate also carries a <span class="mono">BASE</span> score out of 4, one point each for: meaningful time spent at the lows, volatility drying up, the 200-day average flattening out, and a higher low versus the past year. The score maps directly to size: <strong>3 or 4 — size normally</strong>, a durable turn and the trades we want to own; <strong>2 — half size</strong>; <strong>0 or 1 — bounce risk</strong>, half size or pass. The label on the signal says which. Two out of four is the most common reading in practice, so it gets an explicit instruction rather than being left to the analyst to interpret a number the tool declined to judge. One more nuance: after a crash, the rolling average gets dragged down toward the price, so the z-score can look tame while the ratio still sits 25% below its mean — which is why "largely done" is measured as distance remaining to the mean, not in sigma.</p>
+
+<h2><span class="step">10.</span>Two warning labels, in plain English</h2>
+<p><b>The bottom-quality label</b> (buy ideas only). When a ratio has crashed to an extreme and starts turning up, there are two ways it got there. The good way: it fell, then spent a year or more moving sideways at the lows — sellers gave up, the noise died down, the lows stopped getting lower. That is a real bottom, and it tends to hold. The bad way: it fell and immediately shot back up. That looks identical on the statistics — same extreme, same upturn — but it is usually just a bounce, and bounces roll over. The tool checks four signs of a real bottom and the chip states the conclusion: <b>SOLID BOTTOM</b> — size normally. <b>BOTTOM FORMING</b> — half size. <b>NO REAL BOTTOM</b> — pass or token size. Read it as a sizing instruction, not a veto: the idea can be right and the timing still punish you.</p>
+<p><b>The drifting-average label.</b> Every trade here is a bet that the ratio returns to its 5-year average. That only works if the average is standing still. Some relationships aren't — one side has been winning for years, and the "average" is just yesterday's picture of a trend still in motion. Betting on a return to it is betting a moving train reverses because it is far from the station. The tool measures each pair a second way, against its trend instead of its average, and when the two answers disagree badly the row is flagged <b>AVG MAY BE DRIFTING</b>. It means one thing: open the chart before you size it. If the gold average line slopes instead of lying flat, part of that "3 sigma cheap" or "3 sigma rich" is just the trend — and the real target may be somewhere else. When in doubt, that is exactly the question for the CIO brief, and for Amit.</p>
 
 <p style="margin-top:30px;color:var(--ink-soft);font-size:13px">Questions on the math → the engine file <span class="mono">pair_reversion.py</span> is the source of truth. This page is the plain-English mirror of it, and displays only what the engine computed.</p>
 </div><!-- /view-how -->
@@ -531,6 +535,13 @@ function render(){
  if(!rows.length){
   tb.innerHTML=`<tr class="empty-row"><td colspan="9">${P.length?"No pairs match these filters.":"No data loaded."}</td></tr>`;
  }
+ function humanBR(br){
+  if(!br)return"—";
+  const m=String(br).match(/(\d+)\/(\d+) episodes.*median (\d+) trading days/);
+  if(!m)return String(br).includes("no resolved")?"First time this setup has appeared":br;
+  const wks=Math.max(1,Math.round(+m[3]/5));
+  return`Worked ${m[1]} of ${m[2]} past times, usually within ~${wks} week${wks>1?"s":""}`;
+ }
  rows.forEach(x=>{
   const tier=TIERS[x.tier]||TIERS.NT;
   const BASE_TITLE={0:"Weak base — bounce risk. Half size or pass.",
@@ -539,7 +550,8 @@ function render(){
                     3:"Strong base — size normally.",
                     4:"Strong base — size normally."};
   const chip=x.base!==undefined
-   ? `<span class="basechip ${x.base>=3?'strong':x.base<=1?'weak':''}" title="${esc(BASE_TITLE[x.base]||"")} Tests: time at lows, vol compression, 200DMA flattening, higher low.">BASE ${x.base}/4</span>`:"";
+   ? `<span class="basechip ${x.base>=3?'strong':x.base<=1?'weak':''}" title="Base score ${x.base}/4. ${esc(BASE_TITLE[x.base]||"")} Tests: time at lows, vol compression, 200DMA flattening, higher low.">${
+      x.base>=3?"SOLID BOTTOM":x.base<=1?"NO REAL BOTTOM":"BOTTOM FORMING — ½ SIZE"}</span>`:"";
   // The divergence test is symmetric, so the explanation must be too. Raw
   // more extreme = part of the stretch is drift and the setup is WEAKER than
   // it looks. Trend-adjusted more extreme = the pair has moved further from
@@ -552,19 +564,23 @@ function render(){
      : "The trend-adjusted reading is the more extreme, so the pair sits further from its own 5-year path than the flat mean shows — the flat mean is absorbing the move.")+
    " Read the chart before sizing.";
   const flags=
-   (x.drift?`<span class="flag drift" title="${esc(driftTitle)}">z DIVERGES</span>`:"")+
+   (x.drift?`<span class="flag drift" title="${esc(driftTitle)}">AVG MAY BE DRIFTING</span>`:"")+
    (x.short_hist?`<span class="flag short" title="Under five full years of history (${x.bars} trading days). The rolling statistics are computed on a shorter window than the label implies.">SHORT HISTORY</span>`:"")+
    (x.whipsaw?`<span class="flag whip" title="Reached 3σ in BOTH directions inside the lookback. The 5-year mean is unstable, so no target derived from it is trustworthy. Stand aside.">WHIPSAW</span>`:"");
   const tr=document.createElement("tr");tr.className="row";tr.tabIndex=0;
-  tr.innerHTML=`<td class="pair">${esc(x.p)}<span class="dir">${esc(x.dir)}</span></td>
+  const legs=(d=>{const[a,b]=x.p.split("/");
+   if(d.startsWith("SHORT"))return`SELL ${a} · BUY ${b}`;
+   if(d.startsWith("LONG"))return`BUY ${a} · SELL ${b}`;return"—";})(x.dir||"—");
+  tr.innerHTML=`<td class="pair">${esc(x.p)}<span class="dir" title="${esc(x.dir)}">${esc(legs)}</span></td>
    <td><span class="badge ${tier.k}">${tier.t}</span>${chip}${flags}</td>
    <td>${sparkSVG(x)}</td>
    <td>${zrail(x.znow??0,x.zpk??0)}</td>
    <td class="num">${fmt(x.znow)}</td>
    <td class="num zpk">${fmt(x.zpk)}</td>
    <td><div class="pips">${[0,1,2].map(j=>`<span class="pip ${j<(x.ma||0)?'on':''}"></span>`).join("")}</div></td>
-   <td class="slope ${x.slope?'turn':'intact'}">${x.slope?"turned ▾":"intact"}</td>
-   <td class="num" style="color:var(--ink-soft)">${esc(x.br)}</td>`;
+   <td class="slope ${x.slope?'turn':'intact'}" title="50-day average of the ratio, measured over the past 20 days">${
+     x.slope?(String(x.dir).startsWith("SHORT")?"rolling over ▾":"turning up ▴"):"still running"}</td>
+   <td class="num" style="color:var(--ink-soft)" title="${esc(x.br)}">${esc(humanBR(x.br))}</td>`;
 
   const parts=x.base_parts?`<div class="parts">${Object.entries(BASE_LABELS)
     .map(([k,lab])=>`<span><b class="${x.base_parts[k]?'yes':'no'}">${x.base_parts[k]?"✓":"✗"}</b> ${lab}</span>`).join("")}</div>`:"";
@@ -573,7 +589,8 @@ function render(){
     <div><div class="k">Ratio (${esc(x.asof||META.asof||"")})</div><div class="v">${esc(x.rt)}</div></div>
     <div><div class="k">T1 — 200DMA</div><div class="v ${String(x.t1).includes("ACHIEVED")?"ach":""}">${esc(x.t1)}</div></div>
     <div><div class="k">T2 — 5y mean</div><div class="v">${esc(x.t2)}</div></div>
-    <div><div class="k">Invalidation</div><div class="v">${esc(x.inv)}</div></div>
+    <div><div class="k">Exit rule (stop)</div><div class="v">${esc(x.inv)}</div></div>
+    <div><div class="k">Track record (full)</div><div class="v">${esc(x.br)}</div></div>
     <div><div class="k">z — flat mean</div><div class="v">${fmt(x.znow,2)}</div></div>
     <div><div class="k">z — vs 5y trend</div><div class="v"${x.drift?' style="color:#5B4A78;font-weight:700"':""}>${fmt(x.dz,2)}</div></div>
     <div><div class="k">History</div><div class="v">${x.bars?`${x.bars} trading days`:"—"}</div></div>
@@ -787,4 +804,3 @@ function renderReg(){
 </script>
 </body>
 </html>
-

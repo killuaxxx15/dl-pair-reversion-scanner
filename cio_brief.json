@@ -1,45 +1,31 @@
 {
  "meta": {
-  "generated_at": "2026-07-28T23:29:23+00:00",
+  "generated_at": "2026-07-29T03:59:58+00:00",
   "model": "claude-opus-4-8",
   "signals_asof": "2026-07-28",
-  "reviewed": 4,
-  "requested": 4,
+  "reviewed": 2,
+  "requested": 2,
   "missing": [],
-  "included_watchlist": true,
+  "included_watchlist": false,
   "usage": {
-   "input_tokens": 205240,
-   "output_tokens": 5687
+   "input_tokens": 152815,
+   "output_tokens": 4654
   }
  },
  "brief": [
   {
-   "pair": "ITA/SPY",
-   "verdict": "AVOID",
-   "regime_risk": "HIGH",
-   "analysis": "Defense is undergoing a genuine spending-regime shift (NATO/Europe rearmament and rising global military budgets), and the data confirms the drift directly: detrended_z of 0.97 versus raw z of 1.92 shows the ratio is barely stretched against its own rising trend. ma_score is 0/3 with an intact 50DMA, and the 200DMA is already essentially met (+2.2%), so the +20.4% target to the 5-year mean is a stale center that the trend has left behind. The 5-year mean is not a valid target.",
-   "report_line": "Short ITA/SPY to the 5-year mean: avoid, because the detrended z (0.97 vs 1.92 raw) shows the defense-spending regime has lifted the ratio's trend and the flat mean overstates the stretch."
-  },
-  {
-   "pair": "SMH/QQQ",
-   "verdict": "AVOID",
-   "regime_risk": "HIGH",
-   "analysis": "The AI capex cycle is a live structural regime shift lifting semiconductors' share of the Nasdaq, with SMH gaining ~82% in a half-year and equipment makers and non-Nvidia names now participating — this is exactly the secular index-share change that invalidates an old mean. The +65.9% distance to the 5-year mean, ma_score of only 1/3, and an intact 50DMA slope all say the ratio's center of gravity has permanently risen; the 5-year mean is not a valid target. The +13.7% 200DMA target is the only defensible reversion here, and even that fights a strong trend.",
-   "report_line": "Short SMH/QQQ at 2.67z: engine-flagged but we avoid the 5-year-mean thesis because the AI capex regime has structurally re-rated semiconductor index share, making the old mean a statistical trap rather than a magnet."
-  },
-  {
    "pair": "SLV/GLD",
-   "verdict": "CAUTION",
-   "regime_risk": "MEDIUM",
-   "analysis": "The strongest regime argument is silver's structural industrial demand (solar, electronics, clean energy) layered on gold's own central-bank bid, which can hold the ratio above its old mean; but with peak z of 6.36 already collapsed to 0.98, detrended_z of just 0.53, and the 200DMA already achieved, most of the dislocation has resolved. The remaining +13.5% push to the 5-year mean is a real but low-conviction leg — tradeable if sized down, not a clean reversion. The mean may have drifted modestly higher, so treat the 5-year target as optimistic.",
-   "report_line": "Short SLV/GLD residual to the 5-year mean: size down, as the 200DMA is already hit and silver's industrial-demand regime argues the ratio's floor has risen, capping downside."
+   "verdict": "AVOID",
+   "regime_risk": "HIGH",
+   "analysis": "The trade bets silver falls back toward gold, but the strongest case against it is that both metals have structurally re-rated: silver roughly tripled in 2025 on solar and electrification demand while gold hit records on relentless central-bank buying and a move away from the dollar. The old five-year average of the silver-to-gold price relationship was set before either of those shifts, so it is very likely no longer the right target — and the ratio has already reached its 200-day average, meaning the extra push the model wants is fighting a live, two-sided change in the world.",
+   "report_line": "We are short silver-versus-gold expecting a snap-back to the old five-year norm, but flag high regime risk: silver's demand-driven re-rating and record central-bank gold buying may have permanently moved that norm, so the position is sized down or passed rather than pressed."
   },
   {
    "pair": "XME/SPY",
    "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "Metals and miners carry a real structural tailwind from record gold and strong silver/copper demand, and the readings confirm the reversion has largely played out: current z is only 0.65, detrended_z is -0.12 (no stretch left on a trend basis), and the 200DMA is already achieved after a 4.57 peak. The perfect 2/2 base rate and 3/3 ma_score are constructive, but the residual +10.7% push to the 5-year mean fights a commodity regime that may have raised the ratio's floor. Tradeable on the base rate, but size down and lean on the 200DMA, not the 5-year mean.",
-   "report_line": "Short XME/SPY residual: the reversion is nearly complete (200DMA hit, detrended z ~0), so we take the base-rate edge in reduced size while flagging the metals-demand regime as a cap on the final leg to the 5-year mean."
+   "analysis": "The trade bets metals-and-mining stocks give back their lead over the broad S&P 500 and revert to the old five-year relationship, but the strongest counter is that these miners are directly levered to the same gold, silver and copper complex now in a record structural bull, so the reversion could stall well short of the old average. The mean has probably drifted higher rather than moved wildly, and the 200-day target is already met with only two clean historical episodes behind the base rate — tradeable, but on a half-size footing given real commodity-cycle risk.",
+   "report_line": "We are short metals-and-miners versus the S&P 500 for a partial mean-reversion, sized down: the group has already reverted to its 200-day average and the underlying metals bull could keep miners richer than their old five-year norm, so we take the easy part of the move and avoid pressing toward the flat mean."
   }
  ]
 }

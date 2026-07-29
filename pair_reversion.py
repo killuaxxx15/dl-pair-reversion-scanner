@@ -191,11 +191,17 @@ def evaluate(df: pd.DataFrame, pair_name: str) -> dict:
     # Targets & invalidation (for short-reversion; mirror for long)
     t1, t2 = last["dma200"], last["mean5y"]
     if direction == "SHORT_RATIO":
-        invalidation = f"ratio > 50DMA ({last['dma50']:.4f}) AND new 20d high (> {last['hi20']:.4f})"
+        exit_lvl = max(last["dma50"], last["hi20"])
+        invalidation = (f"Exit above {exit_lvl:.4f} — the ratio would be back over its "
+                        f"50-day avg ({last['dma50']:.4f}) with a fresh 20-day high: "
+                        f"the snap-back has failed. No averaging down.")
         t1_str = "ACHIEVED" if last["ratio"] <= t1 else f"{(last['ratio'] / t1 - 1) * 100:+.1f}% to close"
         t2_str = "ACHIEVED" if last["ratio"] <= t2 else f"{(last['ratio'] / t2 - 1) * 100:+.1f}% to close"
     else:
-        invalidation = f"ratio < 50DMA ({last['dma50']:.4f}) AND new 20d low (< {last['lo20']:.4f})"
+        exit_lvl = min(last["dma50"], last["lo20"])
+        invalidation = (f"Exit below {exit_lvl:.4f} — the ratio would be back under its "
+                        f"50-day avg ({last['dma50']:.4f}) with a fresh 20-day low: "
+                        f"the turn has failed. No averaging down.")
         t1_str = "ACHIEVED" if last["ratio"] >= t1 else f"{(t1 / last['ratio'] - 1) * 100:+.1f}% to close"
         t2_str = "ACHIEVED" if last["ratio"] >= t2 else f"{(t2 / last['ratio'] - 1) * 100:+.1f}% to close"
 
@@ -478,8 +484,11 @@ def _selftest() -> None:
     for regime, side in (("just_broke", "SHORT"), ("based_turning", "LONG")):
         d = compute_features(make_mock_pair(regime))
         inv = evaluate(d, regime)["invalidation"]
-        assert inv.count("(") == 2, f"{side} invalidation missing a level: {inv}"
-        assert "50DMA" in inv and "20d" in inv, inv
+        want = "Exit above" if side == "SHORT" else "Exit below"
+        assert inv.startswith(want), f"{side}: {inv}"
+        # the rule still names both of its components with the level up front
+        assert "50-day avg" in inv and "20-day" in inv, inv
+        assert "No averaging down" in inv, inv
 
     # tier mapping must be total over every signal string evaluate() can emit
     for sig in ["INSUFFICIENT DATA", "REVERSION LARGELY DONE — stand aside",
