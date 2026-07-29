@@ -1,31 +1,38 @@
 {
  "meta": {
-  "generated_at": "2026-07-29T03:59:58+00:00",
+  "generated_at": "2026-07-29T23:16:56+00:00",
   "model": "claude-opus-4-8",
-  "signals_asof": "2026-07-28",
-  "reviewed": 2,
-  "requested": 2,
+  "signals_asof": "2026-07-29",
+  "reviewed": 3,
+  "requested": 3,
   "missing": [],
-  "included_watchlist": false,
+  "included_watchlist": true,
   "usage": {
-   "input_tokens": 152815,
-   "output_tokens": 4654
+   "input_tokens": 93394,
+   "output_tokens": 4138
   }
  },
  "brief": [
   {
-   "pair": "SLV/GLD",
+   "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The trade bets silver falls back toward gold, but the strongest case against it is that both metals have structurally re-rated: silver roughly tripled in 2025 on solar and electrification demand while gold hit records on relentless central-bank buying and a move away from the dollar. The old five-year average of the silver-to-gold price relationship was set before either of those shifts, so it is very likely no longer the right target — and the ratio has already reached its 200-day average, meaning the extra push the model wants is fighting a live, two-sided change in the world.",
-   "report_line": "We are short silver-versus-gold expecting a snap-back to the old five-year norm, but flag high regime risk: silver's demand-driven re-rating and record central-bank gold buying may have permanently moved that norm, so the position is sized down or passed rather than pressed."
+   "analysis": "The bet is that aerospace and defense falls back versus the S&P 500, but the flat-average and trend-adjusted readings of this relationship disagree by more than a full step, which is direct evidence the 'normal' level is drifting upward rather than sitting still. That drift lines up with a structural spending shift: NATO members have pledged to raise defense budgets toward 5% of GDP from 2%, a durable tailwind, and none of the moving-average checks confirm a turn (0 of 3). The move back to the one-year average is essentially already done (+0.1%), and the further 18% to the five-year average targets a mean that has almost certainly moved higher.",
+   "report_line": "Avoid shorting defense-versus-S&P: the relationship's baseline is drifting up on the NATO 2%-to-5%-of-GDP spending shift, the trend-adjusted reading contradicts the flat average, and momentum offers no confirmation of a turn."
   },
   {
-   "pair": "XME/SPY",
+   "pair": "SLV/GLD",
    "verdict": "CAUTION",
-   "regime_risk": "MEDIUM",
-   "analysis": "The trade bets metals-and-mining stocks give back their lead over the broad S&P 500 and revert to the old five-year relationship, but the strongest counter is that these miners are directly levered to the same gold, silver and copper complex now in a record structural bull, so the reversion could stall well short of the old average. The mean has probably drifted higher rather than moved wildly, and the 200-day target is already met with only two clean historical episodes behind the base rate — tradeable, but on a half-size footing given real commodity-cycle risk.",
-   "report_line": "We are short metals-and-miners versus the S&P 500 for a partial mean-reversion, sized down: the group has already reverted to its 200-day average and the underlying metals bull could keep miners richer than their old five-year norm, so we take the easy part of the move and avoid pressing toward the flat mean."
+   "regime_risk": "HIGH",
+   "analysis": "Silver ran violently ahead of gold and has already snapped most of the way back, with the trade's one-year-average target now achieved, so the easy money is largely made. The problem is that both legs are being reshaped structurally: silver is in its fifth straight year of supply deficit with record industrial demand from solar, EVs and AI, while gold is bid by record central-bank buying, so neither metal is simply mean-reverting. The remaining pull toward the five-year average (about +13%) rests on an average that both regime shifts have probably moved, so take what reversion is left but do not lean on the old mean.",
+   "report_line": "Short silver-versus-gold has already delivered most of its snap-back; hold small for residual reversion but the five-year average target is suspect given silver's supply deficits and record central-bank gold demand."
+  },
+  {
+   "pair": "SMH/QQQ",
+   "verdict": "CAUTION",
+   "regime_risk": "HIGH",
+   "analysis": "The bet is that chipmakers give back ground against the broad Nasdaq, and a recent pullback (the chip basket already fell about 9.5% in a month) gives the snap-back a running start. But the AI build-out is a genuine multi-year spending wave, not a blip: the big cloud buyers are guiding 2026 capital budgets above $400 billion versus roughly $230 billion in 2024, which can keep chips permanently richer than history. The engine only asks for the modest move back to the roughly one-year average (about +10%), which is realistic; the full 61% move to the five-year average is not a valid target and should not be traded.",
+   "report_line": "Short chips-versus-Nasdaq for the tactical move back toward its one-year average only, sized down, because the AI capex boom means the old five-year relationship may never return."
   }
  ]
 }
