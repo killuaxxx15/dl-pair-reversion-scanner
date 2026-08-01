@@ -1,15 +1,15 @@
 {
  "meta": {
-  "generated_at": "2026-07-30T23:20:07+00:00",
+  "generated_at": "2026-08-01T23:14:09+00:00",
   "model": "claude-opus-4-8",
-  "signals_asof": "2026-07-30",
-  "reviewed": 4,
-  "requested": 4,
+  "signals_asof": "2026-07-31",
+  "reviewed": 3,
+  "requested": 3,
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 68076,
-   "output_tokens": 3423
+   "input_tokens": 66915,
+   "output_tokens": 3738
   }
  },
  "brief": [
@@ -17,29 +17,22 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The engine wants defense stocks to fall back toward the market after a big run, but Europe's rearmament is a multi-year spending wave — the EU has outlined up to €800bn through 2030 and orders are flowing to the U.S. primes that dominate this fund — so the old relationship is drifting upward, not stretched. The decisive tell is in the data itself: the trade's reading against a flat average and its reading against the actual rising trend disagree by more than a full step, which is direct evidence the mean is moving rather than the price being temporarily rich. The shallow target is already met and the extra ~17% to the five-year average is chasing a number that no longer describes the world.",
-   "report_line": "We are passing on shorting defense versus the market: the flat-average and trend-based readings openly disagree, confirming the mean is rising with Europe's rearmament cycle, so the remaining ~17% target is a statistical mirage."
+   "analysis": "Defense stocks have outrun the broad market on a durable, multi-year rearmament cycle — record global military spending near $2.9 trillion, Europe rebuilding its forces and Asia ramping up — not a one-off headline that fades. The direct tell is that against its own upward-drifting trend line the defense-vs-market gap is only mildly stretched even though it looks rich against a flat five-year average; the two readings disagree by more than a full step, which is hard evidence the average itself is climbing. With the nearby target already met, the short-term trend not even confirmed as rolling over, and the far target sitting on a stale mean, the statistics here are a trap.",
+   "report_line": "Avoid shorting aerospace and defense versus the S&P toward its old average: a multi-year global rearmament cycle is dragging that average upward, and the gap is barely stretched once you account for the rising trend."
   },
   {
    "pair": "SLV/GLD",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "This is a bet that silver, having exploded past gold, falls back toward its old relationship — but silver's move is structural, not a spring: a sixth straight annual supply deficit, surging industrial and solar demand, and a physical squeeze have re-rated it, and multiple houses expect the gold-to-silver ratio to keep normalizing lower into 2026, not snap back. The trade's own numbers say the same: the shallow moving-average target is already hit and, measured against silver's own rising trend, there is essentially no stretch left to harvest — the extra 15% to the five-year average is chasing a mean that has moved. The statistics that make this look rich are exactly the trap the mandate warns about.",
-   "report_line": "We are passing on shorting silver versus gold: silver's re-rating on supply deficits and industrial demand has moved the goalposts, the easy target is already met, and the remaining 15% to the old average is betting against a structural trend."
-  },
-  {
-   "pair": "XME/SPY",
-   "verdict": "AVOID",
-   "regime_risk": "HIGH",
-   "analysis": "This flags miners as over-extended versus the market, but the 2025 metals move was a broad re-rating — record gold, copper and silver, tariff-driven supply bottlenecks and energy-transition demand — that has lifted the whole sector's baseline rather than temporarily inflated it. Against the sector's own rising trend there is no stretch left at all (the trend-relative reading is essentially zero) and the shallow moving-average target is already achieved, so the extra ~11% to the old average is simply betting the commodity cycle reverses. High-conviction flag notwithstanding, the mean has moved; the thin two-episode history offers no edge to lean on.",
-   "report_line": "We are passing on shorting metals & miners versus the market: the 2025 commodity re-rating has reset the baseline, there is no stretch left against the sector's own trend, and the remaining ~11% target assumes a cycle reversal we don't see."
+   "analysis": "The strongest case for a broken relationship is decisive: silver has run ahead of gold because it is in its fifth straight year of physical shortage, with record industrial demand from solar panels, EVs and electronics that supply cannot quickly meet — a lasting shift, not a temporary spike. The extreme peak stretch has already snapped most of the way back on its own (the nearby target is already met and the short-term trend has turned), so what remains is a bet against silver's structural strength toward an old average that the deficit era has likely invalidated. Measured against its own trend line the relationship is barely stretched at all, confirming the mean has moved rather than the price merely overshooting it.",
+   "report_line": "Avoid shorting silver versus gold toward its old five-year average: a fifth consecutive year of silver supply deficit and record solar and industrial demand have likely reset that average higher, and the easy snap-back is already behind us."
   },
   {
    "pair": "SMH/QQQ",
    "verdict": "CAUTION",
-   "regime_risk": "HIGH",
-   "analysis": "Chips have run far ahead of the broad Nasdaq, and the engine wants that gap to close — but the AI buildout is the reason it opened, not an accident: data-center spending rose 53% year-over-year and hyperscalers keep saying demand exceeds supply, so the pre-AI five-year average (a 67% snap-back) is almost certainly a dead target. The one honest reversion here is the modest pullback toward the one-year trend line (about 14%), which the trend-relative reading still supports because it agrees with the raw stretch. Trade the shallow fade to the moving average, never the deep number, and respect the stop the moment chips make a fresh high.",
-   "report_line": "We are short semiconductors versus the Nasdaq for a shallow give-back toward the one-year trend (~14%), not the 67% return to the old average, because the AI capex cycle has permanently lifted the relationship — size small and exit if chips print a new high."
+   "regime_risk": "MEDIUM",
+   "analysis": "The case for a permanent shift is real: three years of AI infrastructure spending have made chipmakers a structurally larger, more richly-earning slice of the tech complex, so betting they fall back to their five-year average versus the Nasdaq is fighting a genuine tailwind. But this stretch is different from the metals and defense trades — the shorter-term trend is still rolling over, the chip-vs-Nasdaq gap measured against its own rising trend line still shows a real dislocation rather than pure drift, and past episodes hit the nearby target roughly three-quarters of the time. Trade it toward the near, realistic target (about 13% of snap-back), not the distant five-year average, which the AI cycle has probably moved beyond.",
+   "report_line": "Short semiconductors versus the Nasdaq as a half-size mean-reversion trade toward the nearby moving-average target, with the ongoing AI capital-spending boom the key risk that caps how far the gap can close."
   }
  ]
 }
