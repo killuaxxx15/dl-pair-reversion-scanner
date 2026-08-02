@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-08-01T23:14:09+00:00",
+  "generated_at": "2026-08-02T23:15:00+00:00",
   "model": "claude-opus-4-8",
   "signals_asof": "2026-07-31",
   "reviewed": 3,
@@ -8,8 +8,8 @@
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 66915,
-   "output_tokens": 3738
+   "input_tokens": 66717,
+   "output_tokens": 3435
   }
  },
  "brief": [
@@ -17,22 +17,22 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "Defense stocks have outrun the broad market on a durable, multi-year rearmament cycle — record global military spending near $2.9 trillion, Europe rebuilding its forces and Asia ramping up — not a one-off headline that fades. The direct tell is that against its own upward-drifting trend line the defense-vs-market gap is only mildly stretched even though it looks rich against a flat five-year average; the two readings disagree by more than a full step, which is hard evidence the average itself is climbing. With the nearby target already met, the short-term trend not even confirmed as rolling over, and the far target sitting on a stale mean, the statistics here are a trap.",
-   "report_line": "Avoid shorting aerospace and defense versus the S&P toward its old average: a multi-year global rearmament cycle is dragging that average upward, and the gap is barely stretched once you account for the rising trend."
+   "analysis": "This bets defense stocks give back their lead over the broad market, but every NATO member now meets the 2% spending floor for the first time and Europe's rearmament is a multi-year procurement cycle, so the trend is structurally higher. The tell is direct: measured against the flat five-year average the stretch looks meaningful, but measured against defense's own rising trend it nearly vanishes, meaning the average is drifting up, not the price snapping away from a stable one. The nearer target is already hit, the trend confirmation is missing, and the deeper five-year target is a moving goalpost.",
+   "report_line": "Avoid shorting defense versus the S&P toward its five-year average; the reading that adjusts for the sector's rising trend shows almost no dislocation, and record multi-year NATO spending is lifting the mean itself."
   },
   {
    "pair": "SLV/GLD",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The strongest case for a broken relationship is decisive: silver has run ahead of gold because it is in its fifth straight year of physical shortage, with record industrial demand from solar panels, EVs and electronics that supply cannot quickly meet — a lasting shift, not a temporary spike. The extreme peak stretch has already snapped most of the way back on its own (the nearby target is already met and the short-term trend has turned), so what remains is a bet against silver's structural strength toward an old average that the deficit era has likely invalidated. Measured against its own trend line the relationship is barely stretched at all, confirming the mean has moved rather than the price merely overshooting it.",
-   "report_line": "Avoid shorting silver versus gold toward its old five-year average: a fifth consecutive year of silver supply deficit and record solar and industrial demand have likely reset that average higher, and the easy snap-back is already behind us."
+   "analysis": "This is a bet that silver gives back its run against gold and returns to its old five-year average, but that average was set before silver was repriced by a fifth straight year of supply shortfalls, record solar/electronics demand, and its new status as a designated critical mineral. Silver has already snapped back most of the way from its extreme peak, so the easy reversion is spent; the remaining target is the old average itself, which is exactly the number that has likely moved higher. The statistics point at a mean that no longer exists.",
+   "report_line": "Avoid pressing the short of silver versus gold toward its old five-year average; the metal's structural supply deficit and industrial demand have likely reset that average permanently higher."
   },
   {
    "pair": "SMH/QQQ",
    "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "The case for a permanent shift is real: three years of AI infrastructure spending have made chipmakers a structurally larger, more richly-earning slice of the tech complex, so betting they fall back to their five-year average versus the Nasdaq is fighting a genuine tailwind. But this stretch is different from the metals and defense trades — the shorter-term trend is still rolling over, the chip-vs-Nasdaq gap measured against its own rising trend line still shows a real dislocation rather than pure drift, and past episodes hit the nearby target roughly three-quarters of the time. Trade it toward the near, realistic target (about 13% of snap-back), not the distant five-year average, which the AI cycle has probably moved beyond.",
-   "report_line": "Short semiconductors versus the Nasdaq as a half-size mean-reversion trade toward the nearby moving-average target, with the ongoing AI capital-spending boom the key risk that caps how far the gap can close."
+   "analysis": "The strongest case for a permanently new relationship is real: chipmakers are the direct beneficiaries of the AI data-center build-out, which is a multi-year spending wave, not a blip, so betting they fall back toward a five-year average set before that wave is fighting a genuine shift. That said, this trade only aims for the one-year average (about 13% of give-back), not the far-lower five-year average, its own-trend reading agrees with the raw reading, and 6 of 8 past stretches this wide snapped back within a year. Tradeable as a modest bet that chips have simply run too hot too fast, but size it down.",
+   "report_line": "Short chipmakers versus the Nasdaq as an overbought snap-back toward the one-year average, sized down because the AI spending cycle could keep semiconductors structurally rich."
   }
  ]
 }
