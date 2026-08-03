@@ -1,15 +1,15 @@
 {
  "meta": {
-  "generated_at": "2026-08-02T23:15:00+00:00",
+  "generated_at": "2026-08-03T23:21:30+00:00",
   "model": "claude-opus-4-8",
-  "signals_asof": "2026-07-31",
+  "signals_asof": "2026-08-03",
   "reviewed": 3,
   "requested": 3,
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 66717,
-   "output_tokens": 3435
+   "input_tokens": 54888,
+   "output_tokens": 3047
   }
  },
  "brief": [
@@ -17,22 +17,22 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "This bets defense stocks give back their lead over the broad market, but every NATO member now meets the 2% spending floor for the first time and Europe's rearmament is a multi-year procurement cycle, so the trend is structurally higher. The tell is direct: measured against the flat five-year average the stretch looks meaningful, but measured against defense's own rising trend it nearly vanishes, meaning the average is drifting up, not the price snapping away from a stable one. The nearer target is already hit, the trend confirmation is missing, and the deeper five-year target is a moving goalpost.",
-   "report_line": "Avoid shorting defense versus the S&P toward its five-year average; the reading that adjusts for the sector's rising trend shows almost no dislocation, and record multi-year NATO spending is lifting the mean itself."
-  },
-  {
-   "pair": "SLV/GLD",
-   "verdict": "AVOID",
-   "regime_risk": "HIGH",
-   "analysis": "This is a bet that silver gives back its run against gold and returns to its old five-year average, but that average was set before silver was repriced by a fifth straight year of supply shortfalls, record solar/electronics demand, and its new status as a designated critical mineral. Silver has already snapped back most of the way from its extreme peak, so the easy reversion is spent; the remaining target is the old average itself, which is exactly the number that has likely moved higher. The statistics point at a mean that no longer exists.",
-   "report_line": "Avoid pressing the short of silver versus gold toward its old five-year average; the metal's structural supply deficit and industrial demand have likely reset that average permanently higher."
+   "analysis": "The single most important signal here is that measured against its own rising trend, defense is barely stretched—the raw reading (1.7) and the trend-adjusted reading (0.65) disagree by more than a full step, direct evidence the average itself is drifting upward, not that price is temporarily dislocated. Sustained global rearmament and higher defense budgets have genuinely re-rated the group, there is zero moving-average confirmation (0/3), and the nearer target is already essentially met—so the old flat five-year mean is an invalid target and the statistics are a trap.",
+   "report_line": "Avoid shorting defense-versus-S&P: the group has structurally re-rated on global rearmament, its underlying average is drifting up, and the reversion target is already met—this is a broken relationship, not a stretched rubber band."
   },
   {
    "pair": "SMH/QQQ",
    "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "The strongest case for a permanently new relationship is real: chipmakers are the direct beneficiaries of the AI data-center build-out, which is a multi-year spending wave, not a blip, so betting they fall back toward a five-year average set before that wave is fighting a genuine shift. That said, this trade only aims for the one-year average (about 13% of give-back), not the far-lower five-year average, its own-trend reading agrees with the raw reading, and 6 of 8 past stretches this wide snapped back within a year. Tradeable as a modest bet that chips have simply run too hot too fast, but size it down.",
-   "report_line": "Short chipmakers versus the Nasdaq as an overbought snap-back toward the one-year average, sized down because the AI spending cycle could keep semiconductors structurally rich."
+   "analysis": "Chips have run ahead of the broader Nasdaq, and the strongest case for a permanent shift is the AI build-out: hyperscalers are spending on semiconductors at a pace that can keep this group richer than its five-year history for years, so the deep target that implies a 64% snap-back is a trap. The nearer target—back to the one-year average, about 12% away—is reasonable and hit in 6 of 8 past stretches, but the shorter-term trend still points the wrong way for a short, so put this on small and aim only for that nearer target.",
+   "report_line": "Short chips-versus-Nasdaq in small size toward the one-year average only; the AI spending cycle can hold this group expensive, so do not press for the full historical mean."
+  },
+  {
+   "pair": "SLV/GLD",
+   "verdict": "ACT",
+   "regime_risk": "MEDIUM",
+   "analysis": "Silver had run enormously far ahead of gold at the peak but has already snapped back hard—it has reached its one-year-average target and the trend has turned, so the confirmed reversion is real and most of the move is already behind us. Both metals have their own structural bids (central-bank gold buying, industrial and solar demand for silver), which caps how far the ratio should fall, so treat the remaining ~14% toward the older mean as optional rather than the base case.",
+   "report_line": "Silver-versus-gold has cleanly reverted and hit its one-year-average target; the trade is confirmed but largely played out, so bank the move and don't count on a return to the deeper historical mean."
   }
  ]
 }
