@@ -1,15 +1,15 @@
 {
  "meta": {
-  "generated_at": "2026-08-03T23:21:30+00:00",
+  "generated_at": "2026-08-04T23:20:46+00:00",
   "model": "claude-opus-4-8",
-  "signals_asof": "2026-08-03",
-  "reviewed": 3,
-  "requested": 3,
+  "signals_asof": "2026-08-04",
+  "reviewed": 4,
+  "requested": 4,
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 54888,
-   "output_tokens": 3047
+   "input_tokens": 59496,
+   "output_tokens": 4558
   }
  },
  "brief": [
@@ -17,22 +17,29 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The single most important signal here is that measured against its own rising trend, defense is barely stretched—the raw reading (1.7) and the trend-adjusted reading (0.65) disagree by more than a full step, direct evidence the average itself is drifting upward, not that price is temporarily dislocated. Sustained global rearmament and higher defense budgets have genuinely re-rated the group, there is zero moving-average confirmation (0/3), and the nearer target is already essentially met—so the old flat five-year mean is an invalid target and the statistics are a trap.",
-   "report_line": "Avoid shorting defense-versus-S&P: the group has structurally re-rated on global rearmament, its underlying average is drifting up, and the reversion target is already met—this is a broken relationship, not a stretched rubber band."
+   "analysis": "The strongest case against fading defense is that the mean has moved: measured against its own rising trend the ratio is barely stretched at all (0.65) even though it looks stretched against a flat five-year average (1.7) — the two readings disagree, direct evidence the normal level is drifting up. That drift is backed by a genuine spending regime change: defense names are up ~55% versus ~17% for the S&P over the past year, prime-contractor backlogs jumped ~24% to $1.36 trillion, and the sector has moved into a structurally higher gear. The old five-year average is an invalid target; this is a trap, not a rubber band.",
+   "report_line": "Avoid shorting aerospace-and-defense versus the S&P — the ratio looks stretched only against a stale flat average, while rising budgets and record backlogs have permanently lifted the fair level."
+  },
+  {
+   "pair": "XME/SPY",
+   "verdict": "AVOID",
+   "regime_risk": "HIGH",
+   "analysis": "There is almost no edge left to fade here — miners have already reverted to both their one-year and trend-adjusted levels, so the statistical stretch is essentially gone. What remains is a structural metals story working against a short: record central-bank gold buying, physically tight copper, and resource nationalization and supply disruptions have re-rated the group. With the reversion spent and the drivers structural, the old five-year average is not a target worth shorting toward.",
+   "report_line": "Avoid shorting metals-and-mining versus the S&P — the reversion is already complete and structural forces in gold and copper have reset the group's fair level higher."
+  },
+  {
+   "pair": "SLV/GLD",
+   "verdict": "CAUTION",
+   "regime_risk": "MEDIUM",
+   "analysis": "The bet that silver falls back toward gold has already largely played out — silver has come most of the way back and hit its one-year average, leaving little room to the flat five-year mean. The competing force is structural: record central-bank gold buying in 2025 set a floor under gold, so pushing all the way to the old mean assumes a gold pullback that the buyers may not allow. The near-term reversion is real but mostly spent; treat the last leg to the five-year average as optional, not the base case.",
+   "report_line": "Short silver versus gold is a nearly-complete reversion — most of the move is behind us, and record central-bank gold demand argues against chasing the final leg to the old average."
   },
   {
    "pair": "SMH/QQQ",
    "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "Chips have run ahead of the broader Nasdaq, and the strongest case for a permanent shift is the AI build-out: hyperscalers are spending on semiconductors at a pace that can keep this group richer than its five-year history for years, so the deep target that implies a 64% snap-back is a trap. The nearer target—back to the one-year average, about 12% away—is reasonable and hit in 6 of 8 past stretches, but the shorter-term trend still points the wrong way for a short, so put this on small and aim only for that nearer target.",
-   "report_line": "Short chips-versus-Nasdaq in small size toward the one-year average only; the AI spending cycle can hold this group expensive, so do not press for the full historical mean."
-  },
-  {
-   "pair": "SLV/GLD",
-   "verdict": "ACT",
-   "regime_risk": "MEDIUM",
-   "analysis": "Silver had run enormously far ahead of gold at the peak but has already snapped back hard—it has reached its one-year-average target and the trend has turned, so the confirmed reversion is real and most of the move is already behind us. Both metals have their own structural bids (central-bank gold buying, industrial and solar demand for silver), which caps how far the ratio should fall, so treat the remaining ~14% toward the older mean as optional rather than the base case.",
-   "report_line": "Silver-versus-gold has cleanly reverted and hit its one-year-average target; the trade is confirmed but largely played out, so bank the move and don't count on a return to the deeper historical mean."
+   "analysis": "The bet is that chipmakers give back their lead over the broad Nasdaq, but the AI build-out is still accelerating — data-center spending by the big cloud firms is set to jump roughly 78% into 2026 — so the gap could stay wide longer than history suggests. Against that, the ratio's own trend line hasn't drifted (the plain and trend-adjusted readings agree) and 6 of 8 past stretches this extreme snapped back within a year, so the five-year average remains a plausible target — just not one to press. Trade it small: the confirmation signals are weak and the short-term uptrend is still working against you.",
+   "report_line": "Short semiconductors versus the Nasdaq as a half-size fade — history favors reversion, but a still-accelerating AI spending cycle is the reason to keep it small rather than full."
   }
  ]
 }
