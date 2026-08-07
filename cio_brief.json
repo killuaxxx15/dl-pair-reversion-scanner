@@ -1,15 +1,15 @@
 {
  "meta": {
-  "generated_at": "2026-08-05T23:20:09+00:00",
+  "generated_at": "2026-08-07T01:40:03+00:00",
   "model": "claude-opus-4-8",
-  "signals_asof": "2026-08-05",
+  "signals_asof": "2026-08-06",
   "reviewed": 4,
   "requested": 4,
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 87873,
-   "output_tokens": 4411
+   "input_tokens": 128435,
+   "output_tokens": 5287
   }
  },
  "brief": [
@@ -17,29 +17,29 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The strongest case for a changed world: Europe and allies committed to lift defense spending toward 3.5% of GDP by 2035 with global military outlays at record highs, a multi-year rearmament that structurally lifts where defense stocks trade versus the market. The tell is direct: measured against its own rising trend the ratio is barely stretched (well under the flat-average reading, and the two disagree by more than the usual margin), which is hard evidence the average itself is climbing. The 19% fall the 5-year average implies is a statistical trap, not a target.",
-   "report_line": "Avoid shorting defense-versus-S&P: a decade-long rearmament cycle is lifting the baseline, and the ratio is only stretched against a flat average that is itself drifting up."
+   "analysis": "The engine's own trend-versus-flat-mean readings openly disagree by more than the usual margin, which is direct evidence the 'normal' level for defense-versus-market is drifting upward — consistent with the global step-up in military budgets that has re-rated the sector. None of the three moving-average checks confirm a turn, the historical hit rate is a coin flip, and the nearer target has essentially already been reached. Shorting defense back to an old average that is itself rising is betting against a structural spending shift.",
+   "report_line": "We are flagged short aerospace-and-defense versus the market, but we advise against it: the signal's own trend measure shows the normal level drifting up alongside rising global defense budgets, so the old average is a moving — and likely invalid — target."
   },
   {
-   "pair": "XME/SPY",
+   "pair": "SMH/QQQ",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The strongest case for a changed world: metals and mining is being called the front of a new supercycle, up roughly 90% in a year and beating chips and big tech, as AI data centers, electrification and copper scarcity drive metals to fresh highs. The dislocation has already unwound — the near-term target is met, and against its own steeply rising trend the ratio is essentially not stretched at all, meaning the average has moved up under it. Shorting back to the old 5-year average (a 17% fall) is fighting a live secular bull market.",
-   "report_line": "Avoid shorting miners-versus-S&P: the metals supercycle has re-rated the whole sector, the stretch is already gone, and the old 5-year average is no longer a valid target."
+   "analysis": "This bets chipmakers give back their lead over the broader Nasdaq, but that lead is being driven by the AI build-out — a multi-year spending wave that has permanently lifted how much chips are worth relative to everything else, so the old five-year average is very likely no longer the right target. There is no sign the snap-back has even started: the ratio is still far from any target, only one of three moving-average checks confirms, and the medium-term trend has not rolled over. Shorting semis-over-Nasdaq here is fighting the strongest structural tailwind in the market.",
+   "report_line": "We are flagged short semiconductors versus the Nasdaq on a stretched-relationship signal, but we advise against it: the AI-spending boom has likely reset the normal relationship higher, and the reversion hasn't begun."
   },
   {
    "pair": "SLV/GLD",
    "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "The strongest case for a changed world: silver has already run far ahead in a genuine catch-up, driven by real industrial demand (solar, EVs, electronics) against tight supply, not just speculation, so its higher standing versus gold may be partly permanent. The extreme stretch has already largely deflated — the near-term target is met, the trend-adjusted reading is near neutral, and the two readings agree there is no hidden further drift. What is left is a modest pull toward the longer average that is worth a small position, not the full 17% the old average implies.",
-   "report_line": "Short silver-versus-gold in small size for the remaining pullback only; the big move is already spent and silver's industrial demand story argues against a full return to the 5-year average."
+   "analysis": "The real regime worry is that central banks buy gold but never silver, structurally supporting gold and holding this silver-to-gold relationship elevated, while booming solar and electronics demand gives silver its own durable floor gold lacks. But the trade has already largely worked — the extreme stretch has collapsed and the first target has been hit — so the flat five-year average below current levels is the questionable part, not the recent move. Tradeable as a finish to a move already made, but size it down: pushing all the way to the old average fights a genuine change in silver demand.",
+   "report_line": "We are short silver versus gold; the sharp snap-back has already reached its first target, so we would take profits toward that level rather than chase the old five-year average, which structural silver demand may have moved permanently higher."
   },
   {
-   "pair": "SMH/QQQ",
+   "pair": "XME/SPY",
    "verdict": "CAUTION",
-   "regime_risk": "HIGH",
-   "analysis": "The strongest case for a changed world: the AI build-out is the largest private capital deployment on record and is still growing into 2026-27, with chips capturing the biggest single slice of that spend, so chips leading the Nasdaq may be the new normal rather than a stretch. The near-term snap toward the 200-day average (+14%) is plausible and the base rate is decent, but the full 5-year average (a 67% fall in chips versus the Nasdaq) assumes an AI leadership that has structurally re-rated simply hands it all back. Trade the shallow target, treat the deep one as a mirage.",
-   "report_line": "Short chips-versus-Nasdaq for a modest bounce back to the 200-day average only, sized down, because the record AI spending cycle means the deep 5-year target is likely no longer reachable."
+   "regime_risk": "MEDIUM",
+   "analysis": "Metals-and-mining has surged on the same forces lifting the precious-metals complex — heavy central-bank gold buying and industrial silver and copper demand — which is a real structural tailwind under the sector, not just a spike. That said, the extreme stretch has already collapsed toward normal, the first target is met, all three moving-average checks confirm a turn, and the trend-adjusted reading shows the underlying mean has barely drifted. Tradeable as a finishing move, but the thin history and live commodity boom argue for a reduced size rather than a full-conviction short.",
+   "report_line": "We are short metals-and-miners versus the market; most of the reversion is already behind us and the technicals confirm, so we would run it small toward the remaining target given the ongoing commodity boom underneath the sector."
   }
  ]
 }
