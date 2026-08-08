@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-08-07T22:57:43+00:00",
+  "generated_at": "2026-08-08T22:59:59+00:00",
   "model": "claude-opus-4-8",
   "signals_asof": "2026-08-07",
   "reviewed": 5,
@@ -8,8 +8,8 @@
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 113209,
-   "output_tokens": 4540
+   "input_tokens": 139872,
+   "output_tokens": 5459
   }
  },
  "brief": [
@@ -17,36 +17,36 @@
    "pair": "ITA/SPY",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "Measured against its own upward trend rather than a flat line, defense-versus-stocks is barely stretched at all — the plain and trend-adjusted readings disagree by more than the usual margin, which is direct evidence the average itself is marching higher, not a temporary spike. That fits the world: global military spending hit a record ~$2.9 trillion in 2025, rising for an 11th straight year with Europe up double digits. With no trend confirmation (0 of 3), a coin-flip hit rate, and the near-term target already reached, the reversion target to the 5-year norm is chasing a mean that has moved.",
-   "report_line": "We are passing on the short of defense stocks versus the market: the trend-adjusted reading shows the relationship's baseline is drifting upward on a durable global rearmament cycle, not snapping back."
+   "analysis": "Defense has run ahead of the market, but there's no trend confirmation and the short-term average is still climbing. Decisively, the plain reading and the trend-adjusted reading disagree by more than a full move — direct evidence the ratio's average is drifting upward, consistent with a durable rearmament spending shift that post-dates the old 5-year window. The old average is stale, so the apparent stretch is measuring against the wrong benchmark.",
+   "report_line": "Fade of defense-vs-market: we advise against it — the flat and trend-adjusted signals disagree by more than a full move, direct evidence that structural rearmament has moved the average up and the reversion target is no longer valid."
   },
   {
    "pair": "SMH/QQQ",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "The case that chips have permanently re-rated versus the broad Nasdaq is strong: AI data-center spending is a multi-trillion-dollar build-out, with the big four cloud players raising capital budgets over 40% in 2025 and chips taking ~60% of every dollar spent. Chipmakers are still running ahead of the Nasdaq on both a plain and a trend-adjusted basis, their 50-day average is still rising against a short position, and confirmation signals are weak (1 of 3). The target that would send this back to its 5-year average implies a ~70% move — that number describes a different era, not a tradeable dislocation.",
-   "report_line": "We are declining the short of chipmakers versus the Nasdaq: they remain stretched and still rising, and the reversion target ignores a genuine, still-accelerating AI hardware spending cycle."
+   "analysis": "Chips have run far ahead of the broad Nasdaq and the move is still going — trend confirmation is weak and the short-term average is still rising, so it hasn't even turned. The AI build-out is a genuine multi-year shift in where earnings accrue, and the implied ~70% round-trip to the old 5-year average treats a structural re-rating as if it were noise; that average is no longer a credible target. The statistics look extreme precisely because the mean itself has moved.",
+   "report_line": "Fade of chips-vs-Nasdaq: we advise against the full mean-reversion trade — the AI capital-spending cycle has structurally lifted semiconductors' earnings share, so the ~70% snap-back to the old average is a trap, not an edge (regime read is search-limited)."
   },
   {
    "pair": "GLD/SPY",
    "verdict": "CAUTION",
-   "regime_risk": "HIGH",
-   "analysis": "The strongest case against betting gold gives back its lead over stocks is that central banks have become permanent, price-insensitive buyers — they bought roughly 850 tonnes in 2025, well above the historic norm of ~470, and gold has now overtaken US Treasuries as the world's largest reserve asset by value. The easy part of this trade is already done (the near-term one-year-average target has been hit); what remains is the pull back to the 5-year average, and that average was set before this buying wave and is probably too low a target now. Trade the snap-back that already happened, not the last leg down to a mean that has likely moved up.",
-   "report_line": "We are short gold versus US stocks after gold's spike, but only for the completed near-term move — the pull all the way back to its 5-year norm is unlikely because sustained central-bank buying has structurally raised gold's floor."
-  },
-  {
-   "pair": "SLV/GLD",
-   "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "The mechanics here are the cleanest of the book — full trend confirmation (3 of 3), the short-term average has rolled over, and the near-term target is already met — and because this pits silver against gold, gold's own structural strength partly offsets the regime worry. But silver went vertical in 2025 (up roughly 150% at its peak, called 'unhinged' by one bank's strategists), so the near-term give-back is believable while the full ~17% slide to the 5-year norm assumes a calm that mania markets rarely deliver. Take the reversion silver has already begun, but size for the risk that the metals surge isn't finished.",
-   "report_line": "We are short silver versus gold on a clean, confirmed pullback signal, sized down because silver's parabolic 2025 run means the move may not retrace fully to its multi-year norm."
+   "analysis": "Gold's run past stocks has already largely reversed — the 200-day-average target is hit and only the 5-year average remains, another ~11% away. The strongest regime argument is that persistent, price-insensitive central-bank gold buying has lifted gold's fair level, so the 5-year average likely sits too low to be a valid finish line; the ratio is not even stretched against its own upward drift, which supports that. Take the reversion that's happened, but don't chase the last leg into a structural buyer.",
+   "report_line": "Short gold-vs-stocks: the quick snap-back is booked, but we size down because sustained central-bank gold buying may have permanently raised the target, making the last ~11% to the old average a fight against a structural bid (regime read is search-limited)."
   },
   {
    "pair": "XME/SPY",
    "verdict": "CAUTION",
    "regime_risk": "MEDIUM",
-   "analysis": "Metals and miners are in a documented supercycle — the global metals-and-mining index is up roughly 90% since early 2025, beating chips and big tech, driven by copper and AI-and-energy-transition demand — so the 5-year average sits in pre-boom territory that may never be revisited. That said, the trade's near-term signal is real: full confirmation is close (2 of 3), the short-term average has turned, and the one-year-average target is already hit. The trouble is the thin track record (only two comparable episodes) and a ~21% reversion target that assumes the commodity surge reverses. Trade the completed snap-back, not the round-trip to the old norm.",
-   "report_line": "We are short miners versus the market on a confirmed near-term pullback that has mostly already played out, sized down because an active metals supercycle makes the deeper reversion target questionable and the historical sample is thin."
+   "analysis": "Miners have run ahead of the market and are beginning to roll over — decent confirmation, short-term average turned, 200-day-average target hit. The catch is that mining is riding the same precious- and industrial-metals strength that is lifting gold and silver, so a chunk of the move may be structural rather than a dislocation, and the historical evidence here is thin (only two prior episodes). Trade the pullback that's underway, but keep it small until the metals complex cools.",
+   "report_line": "Short miners-vs-market: the near-term reversion is real and partly booked, but we size down because the move is tied to a broad metals-complex strength that may be structural, on a thin two-episode track record (regime read is search-limited)."
+  },
+  {
+   "pair": "SLV/GLD",
+   "verdict": "ACT",
+   "regime_risk": "LOW",
+   "analysis": "Silver spiked violently ahead of gold and is already rolling over — full trend confirmation, the short-term average has turned down, and the 200-day-average target is achieved. Silver-versus-gold is one of the most reliably mean-reverting relationships in metals; sharp silver over-runs historically fade, and the ratio shows no sign its underlying average has drifted. This is the cleanest rubber-band snap in the book.",
+   "report_line": "Short silver-vs-gold: a clean, well-confirmed reversion of a classic violent silver over-run, with regime risk low and the historical average intact as a valid target."
   }
  ]
 }
