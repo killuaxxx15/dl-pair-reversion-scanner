@@ -1,52 +1,45 @@
 {
  "meta": {
-  "generated_at": "2026-08-11T23:06:02+00:00",
+  "generated_at": "2026-08-12T23:04:04+00:00",
   "model": "claude-opus-4-8",
-  "signals_asof": "2026-08-11",
-  "reviewed": 5,
-  "requested": 5,
+  "signals_asof": "2026-08-12",
+  "reviewed": 4,
+  "requested": 4,
   "missing": [],
   "included_watchlist": true,
   "usage": {
-   "input_tokens": 85598,
-   "output_tokens": 3933
+   "input_tokens": 56247,
+   "output_tokens": 4218
   }
  },
  "brief": [
   {
-   "pair": "ITA/SPY",
+   "pair": "SMH/QQQ",
    "verdict": "AVOID",
    "regime_risk": "HIGH",
-   "analysis": "Europe's rearmament has pushed global military spending to a record near $2.9 trillion in what many call a multi-year defense supercycle, so the relationship's own average has genuinely drifted upward. The data confirms this directly: measured against its own rising trend the pair is barely stretched, while against the flat average it looks rich — the two disagree, which is hard evidence the mean itself has moved. With the nearer target already essentially reached and no moving-average confirmation, the deep five-year target is a statistical mirage.",
-   "report_line": "Avoid shorting defense-versus-stocks toward its old average — the rearmament supercycle has structurally lifted the relationship, and the trade already sits near its only realistic target with no downside confirmation."
+   "analysis": "Chips have run far ahead of the broader Nasdaq, and on the numbers the stretch is real and confirmed by the trend-adjusted read. But the reason is structural, not a fluke: hyperscaler AI spending is projected to run toward $1.2 trillion, giving semiconductors a durably larger share of the tech index than five years ago. Getting back to the old 5-year average would require a ~70% collapse in the relationship — that mean has almost certainly moved, so the statistics here are a trap, not a signal.",
+   "report_line": "We would not short semiconductors against the Nasdaq: the ~70% gap to the old average reflects a genuine AI-capex shift in index share, not a dislocation likely to reverse."
   },
   {
    "pair": "GLD/SPY",
    "verdict": "CAUTION",
-   "regime_risk": "HIGH",
-   "analysis": "The strongest case for a changed world is real: central banks are buying gold at the fastest pace in 58 years and gold set dozens of record highs in 2025 on de-dollarization, so the old five-year average price of gold-versus-stocks sits well below where the relationship now trades. But this trade is nearly finished — gold-versus-stocks has already snapped almost all the way back to normal by both the flat average and its own rising trend, and it has hit its 200-day average every one of the last five times. The catch is the exit sits right on top of today's price, so any fresh push higher is likely the gold regime reasserting, not noise.",
-   "report_line": "Short gold-versus-stocks is a nearly-complete snap-back, not a fresh bet, so take profits rather than press it — the record central-bank gold buying means any renewed strength is structural and the stop is essentially at today's level."
+   "regime_risk": "MEDIUM",
+   "analysis": "The strongest case for a permanently higher gold-to-stocks relationship is that central banks are buying gold at record, structurally elevated levels, which pushed gold to all-time highs in 2025 and could keep it richer against stocks than history suggests. That said, this trade only needs a modest snap-back, and the ratio has already reverted: it hit its 200-day-average target and now sits close to normal, with the trend-adjusted read agreeing there's little stretch left. The near target is valid and largely captured; the deeper 5-year-average target (another ~13% lower) is the part where the old mean may no longer hold.",
+   "report_line": "Short gold versus stocks: the easy snap-back to the 200-day average is done, so we'd size this modestly and not chase the deeper target, because record central-bank gold buying may have permanently lifted where gold trades against equities."
   },
   {
-   "pair": "SMH/QQQ",
+   "pair": "SLV/GLD",
    "verdict": "CAUTION",
-   "regime_risk": "HIGH",
-   "analysis": "Chips have run far ahead of the broader Nasdaq, and they remain stretched even against their own steep uptrend — but the driver is a genuine multi-year shift, with banks projecting hyperscaler AI spending climbing past $1.2 trillion. That makes the far five-year average (which implies a 67% fall) an invalid target; only the nearer pullback to the 200-day average is realistic, and even that has no moving-average confirmation yet. Tradeable as a modest fade, not a full reversion.",
-   "report_line": "Short chips-versus-Nasdaq only toward the 200-day average and in reduced size — the AI capital-spending boom has permanently lifted the relationship, so the deep five-year target is a trap."
+   "regime_risk": "MEDIUM",
+   "analysis": "The strongest case for a lasting change is that silver's rally rests on record industrial demand, flat mine supply and falling inventories, with several forecasters seeing further upside — so silver may stay richer against gold than its history implies. Against that, the ratio has already reverted hard from an extreme peak, hit its 200-day-average target, and now trades only modestly above normal. The near target looks valid, but the deeper 5-year-average target (another ~18% lower) leans on a silver-versus-gold relationship that industrial demand may have structurally raised.",
+   "report_line": "Short silver versus gold back toward its recent trend only: the sharp move is largely retraced, so we'd take profits near the 200-day average rather than press toward the old mean given silver's structural industrial-demand tailwind."
   },
   {
    "pair": "XME/SPY",
    "verdict": "CAUTION",
-   "regime_risk": "HIGH",
-   "analysis": "Miners doubled the S&P this year, but much of that lead comes from gold and silver miners riding the same record central-bank gold regime plus genuine copper supply tightness — durable forces that lift the relationship's baseline, making the five-year average a poor target. Working in the trade's favor: it has already reached its 200-day average, its short-term trend has turned, and miners historically revert violently. But the winning-episode count is thin at just two, so keep it small and aim only at the near target.",
-   "report_line": "Short miners-versus-stocks toward the 200-day average in small size — the near snap-back has confirmation, but gold-miner and copper strength is structural and the track record here is too thin to press."
-  },
-  {
-   "pair": "SLV/GLD",
-   "verdict": "ACT",
    "regime_risk": "MEDIUM",
-   "analysis": "Silver ran up over 150% in 2025 and sprinted far ahead of gold, and silver is famous for overshooting and then snapping back. This trade has the cleanest confirmation in the book — silver-versus-gold has already turned down, its short-term average has rolled over, and it has reached its 200-day average target. The industrial-demand story is real so the deep five-year target may be too ambitious, but the near-term reversion is sound.",
-   "report_line": "Short silver-versus-gold toward its 200-day average — silver has sprinted past gold and is turning back with full trend confirmation, though the long-run target should be trimmed for silver's real industrial-demand support."
+   "analysis": "Metals and miners have run well ahead of the broad market, and the strongest structural argument is that copper and the same AI-capex build-out are lifting the sector on a multi-year view, which can keep miners richer against stocks than the past five years suggest. But the ratio has already snapped back to its 200-day-average target and sits only slightly stretched now, and the historical sample behind this signal is thin (just two prior episodes). The near reversion looks real; the deeper 5-year-average target (~22% lower) assumes a mean that the metals cycle may have shifted upward.",
+   "report_line": "Short metals-and-miners versus the market only back to trend, in small size: the snap-back to the 200-day average is largely done and a copper/AI-capex upcycle argues against pressing toward the old, possibly stale, average."
   }
  ]
 }
